@@ -49,7 +49,7 @@ jobs:
 
   build:
     needs: prepareConfig
-    uses: endjin/Endjin.RecommendedPractices.GitHubActions/.github/workflows/scripted-build-single-job-pipeline.yml@feature/single-job-build-workflow
+    uses: endjin/Endjin.RecommendedPractices.GitHubActions/.github/workflows/scripted-build-single-job-pipeline.yml@main
     with:
       netSdkVersion: '8.0.x'
       # workflow_dispatch inputs are always strings, the type property is just for the UI
