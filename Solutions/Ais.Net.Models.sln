@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C0840FD-F495-41BA-9D68-2B691313D2DC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\GitVersion.yml = ..\GitVersion.yml
 	EndProjectSection
 EndProject
