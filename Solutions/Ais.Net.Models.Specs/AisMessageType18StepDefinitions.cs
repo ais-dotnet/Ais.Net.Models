@@ -15,10 +15,11 @@ public class AisMessageType18StepDefinitions
     [Given("a new AisMessageType18 record with the following properties:")]
     public void GivenANewAisMessageTypeRecordWithTheFollowingProperties(DataTable table)
     {
-        PositionData position = new();
-        
-        position.Latitude = Convert.ToInt32(table.Rows[0]["Position_Latitude"]);
-        position.Longitude = Convert.ToInt32(table.Rows[0]["Position_Longitude"]);
+        PositionData position = new()
+        {
+            Latitude = Convert.ToInt32(table.Rows[0]["Position_Latitude"]),
+            Longitude = Convert.ToInt32(table.Rows[0]["Position_Longitude"])
+        };
 
         this.data = table.CreateInstance<AisMessageType18Data>();
         this.data.Position = position;
