@@ -43,7 +43,7 @@ jobs:
           BUILDVAR_NuGetPublishSource: "${{ startsWith(github.ref, 'refs/tags/') && 'https://api.nuget.org/v3/index.json' || 'https://nuget.pkg.github.com/ais-dotnet/index.json' }}"
           BUILDVAR_Configuration: "Release"
         secretsYaml: |
-          NUGET_API_KEY: "${{ startsWith(github.ref, 'refs/tags/') && secrets.NUGET_APIKEY || secrets.GITHUB_PUBLISHER_PAT }}"
+          NUGET_API_KEY: "${{ startsWith(github.ref, 'refs/tags/') && secrets.NUGET_APIKEY || secrets.BUILD_PUBLISHER_PAT }}"
 
   build:
     needs: prepareConfig
