@@ -13,7 +13,7 @@ $devopsExtensions = @(
 # Build process configuration
 #
 $SolutionToBuild = (Resolve-Path (Join-Path $here "./Solutions/Ais.Net.Models.sln")).Path
-
+$SkipBuildModuleVersionCheck = $true    # currently doesn't correctly with endjin-devops
 
 # Set default build task
 task . FullBuild
