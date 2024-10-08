@@ -18,23 +18,31 @@
           "Microsoft.TestPlatform.TestHost": "17.11.1"
         }
       },
-      "NUnit": {
+      "NUnit3TestAdapter": {
         "type": "Direct",
-        "requested": "[4.2.2, )",
-        "resolved": "4.2.2",
-        "contentHash": "mon0OPko28yZ/foVXrhiUvq1LReaGsBdziumyyYGxV/pOE4q92fuYeN+AF+gEU5pCjzykcdBt5l7xobTaiBjsg=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "R7e1+a4vuV/YS+ItfL7f//rG+JBvVeVLX4mHzFEZo4W1qEKl8Zz27AqvQSAqo+BtIzUCo4aAJMYa56VXS4hudw=="
       },
-      "Reqnroll": {
+      "Reqnroll.NUnit": {
         "type": "Direct",
-        "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "lkNiB+MMwNeKL8/p2TqHVmUpMB0G2vVYdhyz9XFNutxDLRD2L6eBNU3jBeCyAoWcBkXMB1lG0gTV7u8LqbEBwA==",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "VcacexjyMd32HmbiYX/QD5vynid+xLjXym835KR68q0vVAA2PWCCRY+bZkLoGb0k/wsddsTQ+w2lCRq1+U2Z7A==",
         "dependencies": {
-          "Cucumber.CucumberExpressions": "17.1.0",
-          "Gherkin": "29.0.0",
-          "Microsoft.Extensions.DependencyModel": "8.0.1",
-          "SpecFlow.Internal.Json": "1.0.8",
-          "System.Runtime.Loader": "4.3.0"
+          "NUnit": "3.13.1",
+          "Reqnroll": "[2.1.1]",
+          "Reqnroll.Tools.MsBuild.Generation": "[2.1.1]"
+        }
+      },
+      "Shouldly": {
+        "type": "Direct",
+        "requested": "[4.2.1, )",
+        "resolved": "4.2.1",
+        "contentHash": "dKAKiSuhLKqD2TXwLKtqNg1nwzJcIKOOMncZjk9LYe4W+h+SCftpWdxwR79YZUIHMH+3Vu9s0s0UHNrgICLwRQ==",
+        "dependencies": {
+          "DiffEngine": "11.3.0",
+          "EmptyFiles": "4.4.0"
         }
       },
       "Ais.Net": {
@@ -49,6 +57,20 @@
         "type": "Transitive",
         "resolved": "17.1.0",
         "contentHash": "IZFDLLwrUCKuGDXQzmAWZa+kQFpVmVwWD8wEl0UWGOR83UQfzqg8hZeSSNUOXlW0Kh3vMO6kEm3FpNC4amKMaw=="
+      },
+      "DiffEngine": {
+        "type": "Transitive",
+        "resolved": "11.3.0",
+        "contentHash": "k0ZgZqd09jLZQjR8FyQbSQE86Q7QZnjEzq1LPHtj1R2AoWO8sjV5x+jlSisL7NZAbUOI4y+7Bog8gkr9WIRBGw==",
+        "dependencies": {
+          "EmptyFiles": "4.4.0",
+          "System.Management": "6.0.1"
+        }
+      },
+      "EmptyFiles": {
+        "type": "Transitive",
+        "resolved": "4.4.0",
+        "contentHash": "gwJEfIGS7FhykvtZoscwXj/XwW+mJY6UbAZk+qtLKFUGWC95kfKXnj8VkxsZQnWBxJemM/q664rGLN5nf+OHZw=="
       },
       "Gherkin": {
         "type": "Transitive",
@@ -96,15 +118,56 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
+      "NETStandard.Library": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
       "Newtonsoft.Json": {
         "type": "Transitive",
         "resolved": "13.0.1",
         "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
       },
+      "NUnit": {
+        "type": "Transitive",
+        "resolved": "3.13.1",
+        "contentHash": "vWBvrSelmTYwqHWvO3dA63z7cOpaFR/3nJ9MMVLBkWeaWa7oiglPPm5g1h96B4i2XXqjFexxhR5MyMjmIJYPfg==",
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        }
+      },
+      "Reqnroll": {
+        "type": "Transitive",
+        "resolved": "2.1.1",
+        "contentHash": "RhV5B0lxVXzP+0U9OUkWf3nMGfSlWnxQdUp0mcatvuQISxB8ZPjdhJB3T4Vjo3bFMiQb/0LUXUmNZ0IqBPZldw==",
+        "dependencies": {
+          "Cucumber.CucumberExpressions": "17.1.0",
+          "Gherkin": "29.0.0",
+          "Microsoft.Extensions.DependencyModel": "8.0.1",
+          "SpecFlow.Internal.Json": "1.0.8",
+          "System.Runtime.Loader": "4.3.0"
+        }
+      },
+      "Reqnroll.Tools.MsBuild.Generation": {
+        "type": "Transitive",
+        "resolved": "2.1.1",
+        "contentHash": "xjv2ihoRHpAAjhZX9d964/0R8mhgHiquPBjnJmhc2sYQnemDCkHIsb4d2VAMKS/HeiXLi6NAxujjgAYFBcxDKg==",
+        "dependencies": {
+          "Reqnroll": "[2.1.1]"
+        }
+      },
       "SpecFlow.Internal.Json": {
         "type": "Transitive",
         "resolved": "1.0.8",
         "contentHash": "lVCC/Rie7N5rFoc7YxPS0nneLfsWSTIMMlkndwxhaD8MxBp3Bsv1HeiVjVwXCjWaQeoqZcvIy52fF5Xit00ZLw=="
+      },
+      "System.CodeDom": {
+        "type": "Transitive",
+        "resolved": "6.0.0",
+        "contentHash": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA=="
       },
       "System.IO": {
         "type": "Transitive",
@@ -122,6 +185,14 @@
         "type": "Transitive",
         "resolved": "4.7.4",
         "contentHash": "TQqNjDcTVu6eTDB2S0vjSUhn0udEugL93D9zgsOsSiJO1kv1UWDM2o0+79H95I5X+S0VPEzm4ihj6KPwhNEb7g=="
+      },
+      "System.Management": {
+        "type": "Transitive",
+        "resolved": "6.0.1",
+        "contentHash": "10J1D0h/lioojphfJ4Fuh5ZUThT/xOVHdV9roGBittKKNP2PMjrvibEdbVTGZcPra1399Ja3tqIJLyQrc5Wmhg==",
+        "dependencies": {
+          "System.CodeDom": "6.0.0"
+        }
       },
       "System.Reflection": {
         "type": "Transitive",

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
-    <RootNamespace>Corvus.Configuration.Specs</RootNamespace>
     <!-- Disabling SA1204 because it prioritizes static/non-static over public/non-public, which doesn't fit very well
          with bindings in SpecFlow.
          Disabling SA1600, SA1602 (all public types and members to be documented) because test projects need to make lots of types
@@ -22,27 +20,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Steps\**" />
-    <EmbeddedResource Remove="Steps\**" />
-    <None Remove="Steps\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="4.2.2" />
-    <PackageReference Include="Reqnroll" Version="2.1.0" />
     <PackageReference Include="coverlet.msbuild" Version="6.0.2">
       <!-- ensure the 'build' assets are not private -->
       <PrivateAssets>contentfiles; analyzers</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1">
-      <!-- ensure the 'build' assets are not private -->
-      <PrivateAssets>contentfiles; analyzers</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Reqnroll.NUnit" Version="2.1.1" />
+    <PackageReference Include="Shouldly" Version="4.2.1" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Ais.Net.Models\Ais.Net.Models.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="nested.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -52,8 +41,5 @@
     <None Update="specflow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\" />
   </ItemGroup>
 </Project>
