@@ -7,7 +7,7 @@ using Ais.Net.Models.Abstractions;
 namespace Ais.Net.Models;
 
 public record AisMessageType19(
-    float? CourseOverGroundDegrees,
+    float? CourseOverGround,
     uint DimensionToBow,
     uint DimensionToPort,
     uint DimensionToStarboard,

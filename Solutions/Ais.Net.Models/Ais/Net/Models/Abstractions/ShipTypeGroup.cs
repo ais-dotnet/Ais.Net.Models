@@ -14,7 +14,7 @@ public enum ShipTypeGroup
 
     Fishing,
     Towing,
-    TowingLengthOver200OmrBreadthOver25m,
+    TowingLengthOver200MOrBreadthOver25M,
     DredgingOrUnderwaterOps,
     DivingOps,
     MilitaryOps,

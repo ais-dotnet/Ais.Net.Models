@@ -9,7 +9,7 @@ namespace Ais.Net.Models;
 public record AisMessageType18(
     bool CanAcceptMessage22ChannelAssignment,
     bool CanSwitchBands,
-    float? CourseOverGroundDegrees,
+    float? CourseOverGround,
     ClassBUnit CsUnit,
     bool HasDisplay,
     bool IsAssigned,

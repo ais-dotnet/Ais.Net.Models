@@ -15,6 +15,11 @@ public static class AisMessageExtensions
         return value / 600000.0;
     }
 
+    public static double From10thMinsToDegrees(this int value)
+    {
+        return value / 600.0;
+    }
+
     public static float? FromTenths(this uint value)
     {
         return value == 1023 ? null : (value / 10.0f);
@@ -59,7 +64,7 @@ public static class AisMessageExtensions
             ShipTypeGroup.WingInGroundReserved => ShipTypeCategory.WingInGround,
             ShipTypeGroup.Fishing => ShipTypeCategory.SpecialCategory3,
             ShipTypeGroup.Towing => ShipTypeCategory.SpecialCategory3,
-            ShipTypeGroup.TowingLengthOver200OmrBreadthOver25m => ShipTypeCategory.SpecialCategory3,
+            ShipTypeGroup.TowingLengthOver200MOrBreadthOver25M => ShipTypeCategory.SpecialCategory3,
             ShipTypeGroup.DredgingOrUnderwaterOps => ShipTypeCategory.SpecialCategory3,
             ShipTypeGroup.DivingOps => ShipTypeCategory.SpecialCategory3,
             ShipTypeGroup.MilitaryOps => ShipTypeCategory.SpecialCategory3,
@@ -204,7 +209,7 @@ public static class AisMessageExtensions
             case >= 25 and <= 29: return ShipTypeGroup.WingInGroundReserved;
             case 30: return ShipTypeGroup.Fishing;
             case 31: return ShipTypeGroup.Towing;
-            case 32: return ShipTypeGroup.TowingLengthOver200OmrBreadthOver25m;
+            case 32: return ShipTypeGroup.TowingLengthOver200MOrBreadthOver25M;
             case 33: return ShipTypeGroup.DredgingOrUnderwaterOps;
             case 34: return ShipTypeGroup.DivingOps;
             case 35: return ShipTypeGroup.MilitaryOps;
