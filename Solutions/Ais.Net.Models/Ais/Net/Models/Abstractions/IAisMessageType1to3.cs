@@ -8,8 +8,6 @@ public interface IAisMessageType1to3
 {
     ManoeuvreIndicator ManoeuvreIndicator { get; }
 
-    NavigationStatus NavigationStatus { get; }
-
     uint RadioSlotTimeout { get; }
 
     uint RadioSubMessage { get; }

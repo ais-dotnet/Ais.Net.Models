@@ -35,7 +35,7 @@ namespace Ais.Net.Models.Specs.Features
         public virtual async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = global::Reqnroll.TestRunnerManager.GetTestRunnerForAssembly();
-            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType18", "  A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType18", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
@@ -81,7 +81,7 @@ namespace Ais.Net.Models.Specs.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType18 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 5
+#line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -131,13 +131,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "12.34",
                             "56",
                             "78"});
-#line 6
+#line 4
     await testRunner.GivenAsync("a new AisMessageType18 record with the following properties:", ((string)(null)), table1, "Given ");
 #line hidden
-#line 9
+#line 7
     await testRunner.WhenAsync("the AisMessageType is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 10
+#line 8
     await testRunner.ThenAsync("the properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

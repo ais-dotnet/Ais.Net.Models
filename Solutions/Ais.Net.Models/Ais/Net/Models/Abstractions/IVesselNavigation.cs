@@ -4,15 +4,9 @@
 
 namespace Ais.Net.Models.Abstractions;
 
-public interface IVesselNavigation
+public interface IVesselNavigation: IVesselPositionAccuracy, IVesselSpeedOverGround, IVesselCourseOverGround
 {
-    float? CourseOverGroundDegrees { get; }
-
     Position? Position { get; }
-
-    bool PositionAccuracy { get; }
-
-    float? SpeedOverGround { get; }
 
     uint TimeStampSecond { get; }
 

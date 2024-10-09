@@ -7,7 +7,7 @@ using Ais.Net.Models.Abstractions;
 namespace Ais.Net.Models;
 
 public record AisMessageType1Through3(
-    float? CourseOverGroundDegrees,
+    float? CourseOverGround,
     ManoeuvreIndicator ManoeuvreIndicator,
     int MessageType,
     uint Mmsi,
@@ -28,4 +28,5 @@ public record AisMessageType1Through3(
     IAisMessageType1to3,
     IRaimFlag,
     IRepeatIndicator,
-    IVesselNavigation;
+    IVesselNavigation,
+    IVesselNavigationStatus;

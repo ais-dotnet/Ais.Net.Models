@@ -31,7 +31,7 @@ public class AisMessageType18StepDefinitions
         this.sut = new AisMessageType18(
             CanAcceptMessage22ChannelAssignment: this.data.CanAcceptMessage22ChannelAssignment,
             CanSwitchBands: this.data.CanSwitchBands,
-            CourseOverGroundDegrees: this.data.CourseOverGroundDegrees,
+            CourseOverGround: this.data.CourseOverGroundDegrees,
             CsUnit: Enum.Parse<ClassBUnit>(this.data.CsUnit),
             HasDisplay: this.data.HasDisplay,
             IsAssigned: this.data.IsAssigned,
@@ -56,7 +56,7 @@ public class AisMessageType18StepDefinitions
         this.sut.ShouldNotBeNull();
         this.sut.CanAcceptMessage22ChannelAssignment.ShouldBeTrue();
         this.sut.CanSwitchBands.ShouldBeTrue();
-        this.sut.CourseOverGroundDegrees.ShouldBe(123.45f);
+        this.sut.CourseOverGround.ShouldBe(123.45f);
         this.sut.CsUnit.ShouldBe(ClassBUnit.Cstdma);
         this.sut.HasDisplay.ShouldBeTrue();
         this.sut.IsAssigned.ShouldBeTrue();
