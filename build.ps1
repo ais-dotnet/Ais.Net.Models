@@ -3,11 +3,11 @@
 .SYNOPSIS
     Runs a .NET flavoured build process.
 .DESCRIPTION
-    This script was scaffolded using a template from the Endjin.RecommendedPractices.Build PowerShell module.
-    It uses the InvokeBuild module to orchestrate an opinonated software build process for .NET solutions.
+    This script was scaffolded using a template from the ZeroFailed project.
+    It uses the InvokeBuild module to orchestrate an opinionated software build process for .NET solutions.
 .EXAMPLE
     PS C:\> ./build.ps1
-    Downloads any missing module dependencies (Endjin.RecommendedPractices.Build & InvokeBuild) and executes
+    Downloads any missing module dependencies (ZeroFailed & InvokeBuild) and executes
     the build process.
 .PARAMETER Tasks
     Optionally override the default task executed as the entry-point of the build.
@@ -27,14 +27,12 @@
     The logging verbosity.
 .PARAMETER Clean
     When true, the .NET solution will be cleaned and all output/intermediate folders deleted.
-.PARAMETER BuildModulePath
-    The path to import the Endjin.RecommendedPractices.Build module from. This is useful when
-    testing pre-release versions of the Endjin.RecommendedPractices.Build that are not yet
-    available in the PowerShell Gallery.
-.PARAMETER BuildModuleVersion
-    The version of the Endjin.RecommendedPractices.Build module to import. This is useful when
-    testing pre-release versions of the Endjin.RecommendedPractices.Build that are not yet
-    available in the PowerShell Gallery.
+.PARAMETER ZfModulePath
+    The path to import the ZeroFailed module from. This is useful when testing pre-release
+    versions of ZeroFailed that are not yet available in the PowerShell Gallery.
+.PARAMETER ZfModuleVersion
+    The version of the ZeroFailed module to import. This is useful when testing pre-release
+    versions of ZeroFailed that are not yet available in the PowerShell Gallery.
 .PARAMETER InvokeBuildModuleVersion
     The version of the InvokeBuild module to be used.
 #>
@@ -69,13 +67,13 @@ param (
     [switch] $Clean,
 
     [Parameter()]
-    [string] $BuildModulePath,
+    [string] $ZfModulePath,
 
     [Parameter()]
-    [string] $BuildModuleVersion = "1.0.0-preview0020",
+    [string] $ZfModuleVersion = "1.0.5",
 
     [Parameter()]
-    [version] $InvokeBuildModuleVersion = "5.11.3"
+    [version] $InvokeBuildModuleVersion = "5.12.1"
 )
 $ErrorActionPreference = 'Stop'
 $here = Split-Path -Parent $PSCommandPath
@@ -89,14 +87,6 @@ if ($MyInvocation.ScriptName -notlike '*Invoke-Build.ps1') {
         Invoke-Build $Tasks $MyInvocation.MyCommand.Path @PSBoundParameters
     }
     catch {
-        if ($env:GITHUB_ACTIONS) {
-            Write-Host ("::error file={0},line={1},col={2}::{3}" -f `
-                            $_.InvocationInfo.ScriptName,
-                            $_.InvocationInfo.ScriptLineNumber,
-                            $_.InvocationInfo.OffsetInLine,
-                            $_.Exception.Message
-                        )
-        }
         Write-Host -f Yellow "`n`n***`n*** Build Failure Summary - check previous logs for more details`n***"
         Write-Host -f Yellow $_.Exception.Message
         Write-Host -f Yellow $_.ScriptStackTrace
@@ -106,21 +96,26 @@ if ($MyInvocation.ScriptName -notlike '*Invoke-Build.ps1') {
 }
 #endregion
 
-#region Import shared tasks and initialise build framework
+#region Initialise build framework
 $splat = @{ Force = $true; Verbose = $false}
-if (!($BuildModulePath)) {
-    Install-PSResource endjin-devops -Version $BuildModuleVersion -Scope CurrentUser -TrustRepository -Reinstall:$($BuildModuleVersion -match '-') | Out-Null
-    $BuildModulePath = "endjin-devops"
-    $splat.Add("RequiredVersion", ($BuildModuleVersion -split '-')[0])
+Import-Module Microsoft.PowerShell.PSResourceGet
+if (!($ZfModulePath)) {
+    Install-PSResource ZeroFailed -Version $ZfModuleVersion -Scope CurrentUser -TrustRepository | Out-Null
+    $ZfModulePath = "ZeroFailed"
+    $splat.Add("RequiredVersion", ($ZfModuleVersion -split '-')[0])
 }
 else {
-    Write-Host "BuildModulePath: $BuildModulePath"
+    Write-Host "ZfModulePath: $ZfModulePath"
 }
-$splat.Add("Name", $BuildModulePath)
+$splat.Add("Name", $ZfModulePath)
+# Ensure only 1 version of the module is loaded
+Get-Module ZeroFailed | Remove-Module
 Import-Module @splat
-$ver = "{0} {1}" -f (Get-Module endjin-devops).Version, (Get-Module endjin-devops).PrivateData.PsData.PreRelease
-Write-Host "Using Build module version: $ver"
+$ver = "{0} {1}" -f (Get-Module ZeroFailed).Version, (Get-Module ZeroFailed).PrivateData.PsData.PreRelease
+Write-Host "Using ZeroFailed module version: $ver"
 #endregion
 
+$PSModuleAutoloadingPreference = 'none'
+
 # Load the build configuration
-. $here/.devops/config.ps1
+. $here/.zf/config.ps1

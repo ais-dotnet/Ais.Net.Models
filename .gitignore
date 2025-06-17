@@ -401,4 +401,5 @@ FodyWeavers.xsd
 # Build outputs
 _codeCoverage/
 _packages/
+.zf/extensions/
 *.sbom.*
