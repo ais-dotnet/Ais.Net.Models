@@ -69,7 +69,7 @@ jobs:
       compilePhaseRunnerOs: ubuntu-latest
       testPhaseMatrixJson: |
         {
-          "os": ["ubuntu-latest"],
+          "os": ["windows-latest", "ubuntu-latest"],
           "dotnetFramework": ["net8.0"]
         }
       # testArtifactName: ''
