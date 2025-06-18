@@ -32,23 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ais.Net.Models\Ais.Net.Models.csproj" />
-    <None Update="nested.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="flattened.settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="specflow.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="**\*.feature.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
   </ItemGroup>
 
-  <ItemGroup>
-    <ReqnrollFeature Include="**\*.feature" />
-  </ItemGroup>
 </Project>
