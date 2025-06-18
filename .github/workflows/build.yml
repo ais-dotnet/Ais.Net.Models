@@ -66,9 +66,10 @@ jobs:
       forcePublish: ${{ github.event.inputs.forcePublish == 'true' }}
       skipCleanup: ${{ github.event.inputs.skipCleanup == 'true' }}
       enableCrossOsCaching: true
+      compilePhaseRunnerOs: ubuntu-latest
       testPhaseMatrixJson: |
         {
-          "os": ["windows-latest", "ubuntu-latest"],
+          "os": ["ubuntu-latest"],
           "dotnetFramework": ["net8.0"]
         }
       # testArtifactName: ''
