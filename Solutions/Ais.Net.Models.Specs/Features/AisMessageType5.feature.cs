@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType5")]
+    [NUnit.Framework.DescriptionAttribute("Static and Voyage Related Data")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType5Feature
+    public partial class StaticAndVoyageRelatedDataFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType5", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Static and Voyage Related Data", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType5.feature"
 #line hidden
@@ -102,14 +102,65 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType5 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType5Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType5 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding static and voyage related data")]
+        [NUnit.Framework.TestCaseAttribute("1", "CALL", "DEST", "1", "2", "3", "4", "5", "6", "7", "8", "9", "true", "123", "12345", "Gps", "3", "60", "1", "VESSEL", null)]
+        public async global::System.Threading.Tasks.Task DecodingStaticAndVoyageRelatedData(
+                    string ais_Version, 
+                    string call_Sign, 
+                    string destination, 
+                    string dim_Bow, 
+                    string dim_Port, 
+                    string dim_Starboard, 
+                    string dim_Stern, 
+                    string draught, 
+                    string eta_Day, 
+                    string eta_Hour, 
+                    string eta_Min, 
+                    string eta_Month, 
+                    string dte_Not_Ready, 
+                    string imo, 
+                    string mmsi, 
+                    string pos_Fix, 
+                    string repeat, 
+                    string ship_Type, 
+                    string spare, 
+                    string vessel_Name, 
+                    string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("ais_version", ais_Version);
+            argumentsOfScenario.Add("call_sign", call_Sign);
+            argumentsOfScenario.Add("destination", destination);
+            argumentsOfScenario.Add("dim_bow", dim_Bow);
+            argumentsOfScenario.Add("dim_port", dim_Port);
+            argumentsOfScenario.Add("dim_starboard", dim_Starboard);
+            argumentsOfScenario.Add("dim_stern", dim_Stern);
+            argumentsOfScenario.Add("draught", draught);
+            argumentsOfScenario.Add("eta_day", eta_Day);
+            argumentsOfScenario.Add("eta_hour", eta_Hour);
+            argumentsOfScenario.Add("eta_min", eta_Min);
+            argumentsOfScenario.Add("eta_month", eta_Month);
+            argumentsOfScenario.Add("dte_not_ready", dte_Not_Ready);
+            argumentsOfScenario.Add("imo", imo);
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("pos_fix", pos_Fix);
+            argumentsOfScenario.Add("repeat", repeat);
+            argumentsOfScenario.Add("ship_type", ship_Type);
+            argumentsOfScenario.Add("spare", spare);
+            argumentsOfScenario.Add("vessel_name", vessel_Name);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding static and voyage related data", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,6 +170,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "AisVersion",
                             "CallSign",
@@ -141,33 +195,33 @@ this.ScenarioInitialize(scenarioInfo);
                             "Spare423",
                             "VesselName"});
                 table7.AddRow(new string[] {
-                            "1",
-                            "CALL",
-                            "DEST",
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8",
-                            "9",
-                            "true",
-                            "123",
-                            "12345",
-                            "Gps",
-                            "3",
-                            "60",
-                            "1",
-                            "VESSEL"});
-#line 4
+                            string.Format("{0}", ais_Version),
+                            string.Format("{0}", call_Sign),
+                            string.Format("{0}", destination),
+                            string.Format("{0}", dim_Bow),
+                            string.Format("{0}", dim_Port),
+                            string.Format("{0}", dim_Starboard),
+                            string.Format("{0}", dim_Stern),
+                            string.Format("{0}", draught),
+                            string.Format("{0}", eta_Day),
+                            string.Format("{0}", eta_Hour),
+                            string.Format("{0}", eta_Min),
+                            string.Format("{0}", eta_Month),
+                            string.Format("{0}", dte_Not_Ready),
+                            string.Format("{0}", imo),
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", pos_Fix),
+                            string.Format("{0}", repeat),
+                            string.Format("{0}", ship_Type),
+                            string.Format("{0}", spare),
+                            string.Format("{0}", vessel_Name)});
+#line 7
     await testRunner.GivenAsync("a new AisMessageType5 record with the following properties:", ((string)(null)), table7, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType5 is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the AisMessageType5 properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

@@ -1,15 +1,16 @@
 namespace Ais.Net.Models.Specs;
 
-using Abstractions;
 using System;
 
+using Abstractions;
+
 using Reqnroll;
+
 using Shouldly;
 
 [Binding]
-public class AisMessageType18StepDefinitions
+public class AisMessageType18StepDefinitions : StepDefinitionBase
 {
-    private AisMessageType18? sut;
     private AisMessageType18Data? data;
 
     [Given("a new AisMessageType18 record with the following properties:")]
@@ -17,8 +18,8 @@ public class AisMessageType18StepDefinitions
     {
         PositionData position = new()
         {
-            Latitude = Convert.ToInt32(table.Rows[0]["Position_Latitude"]),
-            Longitude = Convert.ToInt32(table.Rows[0]["Position_Longitude"])
+            Latitude = Convert.ToDouble(table.Rows[0]["Position_Latitude"]),
+            Longitude = Convert.ToDouble(table.Rows[0]["Position_Longitude"])
         };
 
         this.data = table.CreateInstance<AisMessageType18Data>();
@@ -33,7 +34,7 @@ public class AisMessageType18StepDefinitions
             throw new InvalidOperationException("Data is not set");
         }
 
-        this.sut = new AisMessageType18(
+        this.Message = new AisMessageType18(
             CanAcceptMessage22ChannelAssignment: this.data.CanAcceptMessage22ChannelAssignment,
             CanSwitchBands: this.data.CanSwitchBands,
             CourseOverGround: this.data.CourseOverGroundDegrees,
@@ -58,25 +59,30 @@ public class AisMessageType18StepDefinitions
     [Then("the properties should be set correctly")]
     public void ThenThePropertiesShouldBeSetCorrectly()
     {
-        this.sut.ShouldNotBeNull();
-        this.sut.CanAcceptMessage22ChannelAssignment.ShouldBeTrue();
-        this.sut.CanSwitchBands.ShouldBeTrue();
-        this.sut.CourseOverGround.ShouldBe(123.45f);
-        this.sut.CsUnit.ShouldBe(ClassBUnit.Cstdma);
-        this.sut.HasDisplay.ShouldBeTrue();
-        this.sut.IsAssigned.ShouldBeTrue();
-        this.sut.IsDscAttached.ShouldBeTrue();
-        this.sut.Mmsi.ShouldBe(12345u);
-        this.sut.Position.ShouldBe(new Position(1.0, 2.0));
-        this.sut.PositionAccuracy.ShouldBeTrue();
-        this.sut.RadioStatusType.ShouldBe(ClassBRadioStatusType.Itdma);
-        this.sut.RaimFlag.ShouldBeTrue();
-        this.sut.RegionalReserved139.ShouldBe(1);
-        this.sut.RegionalReserved38.ShouldBe(2);
-        this.sut.RepeatIndicator.ShouldBe(3u);
-        this.sut.SpeedOverGround.ShouldBe(12.34f);
-        this.sut.TimeStampSecond.ShouldBe(56u);
-        this.sut.TrueHeadingDegrees.ShouldBe(78u);
+        var sut = (AisMessageType18?)this.Message;
+        sut.ShouldNotBeNull();
+        if (this.data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+        sut.CanAcceptMessage22ChannelAssignment.ShouldBe(this.data.CanAcceptMessage22ChannelAssignment);
+        sut.CanSwitchBands.ShouldBe(this.data.CanSwitchBands);
+        sut.CourseOverGround.ShouldBe(this.data.CourseOverGroundDegrees);
+        sut.CsUnit.ShouldBe(Enum.Parse<ClassBUnit>(this.data.CsUnit ?? throw new InvalidOperationException()));
+        sut.HasDisplay.ShouldBe(this.data.HasDisplay);
+        sut.IsAssigned.ShouldBe(this.data.IsAssigned);
+        sut.IsDscAttached.ShouldBe(this.data.IsDscAttached);
+        sut.Mmsi.ShouldBe(this.data.Mmsi);
+        sut.Position.ShouldBe(new Position(this.data.Position?.Latitude ?? 0, this.data.Position?.Longitude ?? 0));
+        sut.PositionAccuracy.ShouldBe(this.data.PositionAccuracy);
+        sut.RadioStatusType.ShouldBe(Enum.Parse<ClassBRadioStatusType>(this.data.RadioStatusType ?? throw new InvalidOperationException()));
+        sut.RaimFlag.ShouldBe(this.data.RaimFlag);
+        sut.RegionalReserved139.ShouldBe(this.data.RegionalReserved139);
+        sut.RegionalReserved38.ShouldBe(this.data.RegionalReserved38);
+        sut.RepeatIndicator.ShouldBe(this.data.RepeatIndicator);
+        sut.SpeedOverGround.ShouldBe(this.data.SpeedOverGround);
+        sut.TimeStampSecond.ShouldBe(this.data.TimeStampSecond);
+        sut.TrueHeadingDegrees.ShouldBe(this.data.TrueHeadingDegrees);
     }
 
     private class AisMessageType18Data
@@ -103,7 +109,7 @@ public class AisMessageType18StepDefinitions
 
     private class PositionData
     {
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

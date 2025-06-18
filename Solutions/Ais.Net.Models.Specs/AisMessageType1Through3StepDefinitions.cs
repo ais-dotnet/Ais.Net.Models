@@ -1,15 +1,16 @@
 namespace Ais.Net.Models.Specs;
 
-using Abstractions;
 using System;
 
+using Abstractions;
+
 using Reqnroll;
+
 using Shouldly;
 
 [Binding]
-public class AisMessageType1Through3StepDefinitions
+public class AisMessageType1Through3StepDefinitions : StepDefinitionBase
 {
-    private AisMessageType1Through3? sut;
     private AisMessageType1Through3Data? data;
 
     [Given("a new AisMessageType1Through3 record with the following properties:")]
@@ -17,8 +18,8 @@ public class AisMessageType1Through3StepDefinitions
     {
         PositionData position = new()
         {
-            Latitude = Convert.ToInt32(table.Rows[0]["Position_Latitude"]),
-            Longitude = Convert.ToInt32(table.Rows[0]["Position_Longitude"])
+            Latitude = Convert.ToDouble(table.Rows[0]["Position_Latitude"]),
+            Longitude = Convert.ToDouble(table.Rows[0]["Position_Longitude"])
         };
 
         this.data = table.CreateInstance<AisMessageType1Through3Data>();
@@ -33,7 +34,7 @@ public class AisMessageType1Through3StepDefinitions
             throw new InvalidOperationException("Data is not set");
         }
 
-        this.sut = new AisMessageType1Through3(
+        this.Message = new AisMessageType1Through3(
             CourseOverGround: this.data.CourseOverGround,
             ManoeuvreIndicator: Enum.Parse<ManoeuvreIndicator>(this.data.ManoeuvreIndicator ?? throw new InvalidOperationException()),
             MessageType: this.data.MessageType,
@@ -57,24 +58,29 @@ public class AisMessageType1Through3StepDefinitions
     [Then("the AisMessageType1Through3 properties should be set correctly")]
     public void ThenThePropertiesShouldBeSetCorrectly()
     {
-        this.sut.ShouldNotBeNull();
-        this.sut.CourseOverGround.ShouldBe(123.45f);
-        this.sut.ManoeuvreIndicator.ShouldBe(ManoeuvreIndicator.NotAvailable);
-        this.sut.MessageType.ShouldBe(1);
-        this.sut.Mmsi.ShouldBe(12345u);
-        this.sut.NavigationStatus.ShouldBe(NavigationStatus.UnderwayUsingEngine);
-        this.sut.Position.ShouldBe(new Position(1.0, 2.0));
-        this.sut.PositionAccuracy.ShouldBeTrue();
-        this.sut.RadioSlotTimeout.ShouldBe(1u);
-        this.sut.RadioSubMessage.ShouldBe(2u);
-        this.sut.RadioSyncState.ShouldBe(RadioSyncState.UtcDirect);
-        this.sut.RateOfTurn.ShouldBe(1);
-        this.sut.RaimFlag.ShouldBeTrue();
-        this.sut.RepeatIndicator.ShouldBe(3u);
-        this.sut.SpareBits145.ShouldBe(4u);
-        this.sut.SpeedOverGround.ShouldBe(12.34f);
-        this.sut.TimeStampSecond.ShouldBe(56u);
-        this.sut.TrueHeadingDegrees.ShouldBe(78u);
+        var sut = (AisMessageType1Through3?)this.Message;
+        sut.ShouldNotBeNull();
+        if (this.data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+        sut.CourseOverGround.ShouldBe(this.data.CourseOverGround);
+        sut.ManoeuvreIndicator.ShouldBe(Enum.Parse<ManoeuvreIndicator>(this.data.ManoeuvreIndicator ?? throw new InvalidOperationException()));
+        sut.MessageType.ShouldBe(this.data.MessageType);
+        sut.Mmsi.ShouldBe(this.data.Mmsi);
+        sut.NavigationStatus.ShouldBe(Enum.Parse<NavigationStatus>(this.data.NavigationStatus ?? throw new InvalidOperationException()));
+        sut.Position.ShouldBe(new Position(this.data.Position?.Latitude ?? 0, this.data.Position?.Longitude ?? 0));
+        sut.PositionAccuracy.ShouldBe(this.data.PositionAccuracy);
+        sut.RadioSlotTimeout.ShouldBe(this.data.RadioSlotTimeout);
+        sut.RadioSubMessage.ShouldBe(this.data.RadioSubMessage);
+        sut.RadioSyncState.ShouldBe(Enum.Parse<RadioSyncState>(this.data.RadioSyncState ?? throw new InvalidOperationException()));
+        sut.RateOfTurn.ShouldBe(this.data.RateOfTurn);
+        sut.RaimFlag.ShouldBe(this.data.RaimFlag);
+        sut.RepeatIndicator.ShouldBe(this.data.RepeatIndicator);
+        sut.SpareBits145.ShouldBe(this.data.SpareBits145);
+        sut.SpeedOverGround.ShouldBe(this.data.SpeedOverGround);
+        sut.TimeStampSecond.ShouldBe(this.data.TimeStampSecond);
+        sut.TrueHeadingDegrees.ShouldBe(this.data.TrueHeadingDegrees);
     }
 
     private class AisMessageType1Through3Data
@@ -100,7 +106,7 @@ public class AisMessageType1Through3StepDefinitions
 
     private class PositionData
     {
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

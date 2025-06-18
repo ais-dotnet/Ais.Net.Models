@@ -1,15 +1,16 @@
 namespace Ais.Net.Models.Specs;
 
-using Abstractions;
 using System;
 
+using Abstractions;
+
 using Reqnroll;
+
 using Shouldly;
 
 [Binding]
-public class AisMessageType27StepDefinitions
+public class AisMessageType27StepDefinitions : StepDefinitionBase
 {
-    private AisMessageType27? sut;
     private AisMessageType27Data? data;
 
     [Given("a new AisMessageType27 record with the following properties:")]
@@ -17,8 +18,8 @@ public class AisMessageType27StepDefinitions
     {
         PositionData position = new()
         {
-            Latitude = Convert.ToInt32(table.Rows[0]["Position_Latitude"]),
-            Longitude = Convert.ToInt32(table.Rows[0]["Position_Longitude"])
+            Latitude = Convert.ToDouble(table.Rows[0]["Position_Latitude"]),
+            Longitude = Convert.ToDouble(table.Rows[0]["Position_Longitude"])
         };
 
         this.data = table.CreateInstance<AisMessageType27Data>();
@@ -33,7 +34,7 @@ public class AisMessageType27StepDefinitions
             throw new InvalidOperationException("Data is not set");
         }
 
-        this.sut = new AisMessageType27(
+        this.Message = new AisMessageType27(
             CourseOverGround: this.data.CourseOverGround,
             GnssPositionStatus: this.data.GnssPositionStatus,
             Mmsi: this.data.Mmsi,
@@ -49,16 +50,23 @@ public class AisMessageType27StepDefinitions
     [Then("the AisMessageType27 properties should be set correctly")]
     public void ThenThePropertiesShouldBeSetCorrectly()
     {
-        this.sut.ShouldNotBeNull();
-        this.sut.CourseOverGround.ShouldBe(123.45f);
-        this.sut.GnssPositionStatus.ShouldBeTrue();
-        this.sut.Mmsi.ShouldBe(12345u);
-        this.sut.NavigationStatus.ShouldBe(NavigationStatus.UnderwayUsingEngine);
-        this.sut.Position.ShouldBe(new Position(1.0, 2.0));
-        this.sut.PositionAccuracy.ShouldBeTrue();
-        this.sut.RaimFlag.ShouldBeTrue();
-        this.sut.RepeatIndicator.ShouldBe(3u);
-        this.sut.SpeedOverGround.ShouldBe(12.34f);
+        AisMessageType27? sut = this.Message as AisMessageType27;
+        
+        if (this.data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+
+        sut.ShouldNotBeNull();
+        sut.CourseOverGround.ShouldBe(this.data.CourseOverGround);
+        sut.GnssPositionStatus.ShouldBe(this.data.GnssPositionStatus);
+        sut.Mmsi.ShouldBe(this.data.Mmsi);
+        sut.NavigationStatus.ShouldBe(Enum.Parse<NavigationStatus>(this.data.NavigationStatus ?? throw new InvalidOperationException()));
+        sut.Position.ShouldBe(new Position(this.data.Position?.Latitude ?? 0, this.data.Position?.Longitude ?? 0));
+        sut.PositionAccuracy.ShouldBe(this.data.PositionAccuracy);
+        sut.RaimFlag.ShouldBe(this.data.RaimFlag);
+        sut.RepeatIndicator.ShouldBe(this.data.RepeatIndicator);
+        sut.SpeedOverGround.ShouldBe(this.data.SpeedOverGround);
     }
 
     private class AisMessageType27Data
@@ -76,7 +84,7 @@ public class AisMessageType27StepDefinitions
 
     private class PositionData
     {
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

@@ -1,15 +1,14 @@
 namespace Ais.Net.Models.Specs;
 
-using Abstractions;
 using System;
 
 using Reqnroll;
+
 using Shouldly;
 
 [Binding]
-public class AisMessageType5StepDefinitions
+public class AisMessageType5StepDefinitions : StepDefinitionBase
 {
-    private AisMessageType5? sut;
     private AisMessageType5Data? data;
 
     [Given("a new AisMessageType5 record with the following properties:")]
@@ -26,7 +25,7 @@ public class AisMessageType5StepDefinitions
             throw new InvalidOperationException("Data is not set");
         }
 
-        this.sut = new AisMessageType5(
+        this.Message = new AisMessageType5(
             AisVersion: this.data.AisVersion,
             CallSign: this.data.CallSign ?? throw new InvalidOperationException(),
             Destination: this.data.Destination ?? throw new InvalidOperationException(),
@@ -53,27 +52,34 @@ public class AisMessageType5StepDefinitions
     [Then("the AisMessageType5 properties should be set correctly")]
     public void ThenThePropertiesShouldBeSetCorrectly()
     {
-        this.sut.ShouldNotBeNull();
-        this.sut.AisVersion.ShouldBe(1u);
-        this.sut.CallSign.ShouldBe("CALL");
-        this.sut.Destination.ShouldBe("DEST");
-        this.sut.DimensionToBow.ShouldBe(1u);
-        this.sut.DimensionToPort.ShouldBe(2u);
-        this.sut.DimensionToStarboard.ShouldBe(3u);
-        this.sut.DimensionToStern.ShouldBe(4u);
-        this.sut.Draught10thMetres.ShouldBe(5u);
-        this.sut.EtaDay.ShouldBe(6u);
-        this.sut.EtaHour.ShouldBe(7u);
-        this.sut.EtaMinute.ShouldBe(8u);
-        this.sut.EtaMonth.ShouldBe(9u);
-        this.sut.IsDteNotReady.ShouldBeTrue();
-        this.sut.ImoNumber.ShouldBe(123u);
-        this.sut.Mmsi.ShouldBe(12345u);
-        this.sut.PositionFixType.ShouldBe(EpfdFixType.Gps);
-        this.sut.RepeatIndicator.ShouldBe(3u);
-        ((int)this.sut.ShipType).ShouldBe(60);
-        this.sut.Spare423.ShouldBe(1u);
-        this.sut.VesselName.ShouldBe("VESSEL");
+        AisMessageType5? sut = this.Message as AisMessageType5;
+       
+        if (this.data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+
+        sut.ShouldNotBeNull();
+        sut.AisVersion.ShouldBe(this.data.AisVersion);
+        sut.CallSign.ShouldBe(this.data.CallSign);
+        sut.Destination.ShouldBe(this.data.Destination);
+        sut.DimensionToBow.ShouldBe(this.data.DimensionToBow);
+        sut.DimensionToPort.ShouldBe(this.data.DimensionToPort);
+        sut.DimensionToStarboard.ShouldBe(this.data.DimensionToStarboard);
+        sut.DimensionToStern.ShouldBe(this.data.DimensionToStern);
+        sut.Draught10thMetres.ShouldBe(this.data.Draught10thMetres);
+        sut.EtaDay.ShouldBe(this.data.EtaDay);
+        sut.EtaHour.ShouldBe(this.data.EtaHour);
+        sut.EtaMinute.ShouldBe(this.data.EtaMinute);
+        sut.EtaMonth.ShouldBe(this.data.EtaMonth);
+        sut.IsDteNotReady.ShouldBe(this.data.IsDteNotReady);
+        sut.ImoNumber.ShouldBe(this.data.ImoNumber);
+        sut.Mmsi.ShouldBe(this.data.Mmsi);
+        sut.PositionFixType.ShouldBe(Enum.Parse<EpfdFixType>(this.data.PositionFixType ?? throw new InvalidOperationException()));
+        sut.RepeatIndicator.ShouldBe(this.data.RepeatIndicator);
+        ((int)sut.ShipType).ShouldBe(this.data.ShipType);
+        sut.Spare423.ShouldBe(this.data.Spare423);
+        sut.VesselName.ShouldBe(this.data.VesselName);
     }
 
     private class AisMessageType5Data

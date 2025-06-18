@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType18")]
+    [NUnit.Framework.DescriptionAttribute("Class B \"CS\" Position Report")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType18Feature
+    public partial class ClassBCSPositionReportFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType18", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Class B \"CS\" Position Report", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType18.feature"
 #line hidden
@@ -102,14 +102,63 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType18 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType18Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType18 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding a Class B \"CS\" position report")]
+        [NUnit.Framework.TestCaseAttribute("true", "true", "123.45", "Cstdma", "true", "true", "true", "12345", "1.0", "2.0", "true", "Itdma", "true", "1", "2", "3", "12.34", "56", "78", null)]
+        public async global::System.Threading.Tasks.Task DecodingAClassBCSPositionReport(
+                    string can_Accept_Msg22, 
+                    string can_Switch_Bands, 
+                    string course, 
+                    string cs_Unit, 
+                    string has_Display, 
+                    string is_Assigned, 
+                    string is_Dsc_Attached, 
+                    string mmsi, 
+                    string lat, 
+                    string @long, 
+                    string pos_Accuracy, 
+                    string radio_Status, 
+                    string raim, 
+                    string reg_Res_139, 
+                    string reg_Res_38, 
+                    string repeat, 
+                    string speed, 
+                    string timestamp, 
+                    string true_Heading, 
+                    string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("can_accept_msg22", can_Accept_Msg22);
+            argumentsOfScenario.Add("can_switch_bands", can_Switch_Bands);
+            argumentsOfScenario.Add("course", course);
+            argumentsOfScenario.Add("cs_unit", cs_Unit);
+            argumentsOfScenario.Add("has_display", has_Display);
+            argumentsOfScenario.Add("is_assigned", is_Assigned);
+            argumentsOfScenario.Add("is_dsc_attached", is_Dsc_Attached);
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("lat", lat);
+            argumentsOfScenario.Add("long", @long);
+            argumentsOfScenario.Add("pos_accuracy", pos_Accuracy);
+            argumentsOfScenario.Add("radio_status", radio_Status);
+            argumentsOfScenario.Add("raim", raim);
+            argumentsOfScenario.Add("reg_res_139", reg_Res_139);
+            argumentsOfScenario.Add("reg_res_38", reg_Res_38);
+            argumentsOfScenario.Add("repeat", repeat);
+            argumentsOfScenario.Add("speed", speed);
+            argumentsOfScenario.Add("timestamp", timestamp);
+            argumentsOfScenario.Add("true_heading", true_Heading);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding a Class B \"CS\" position report", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,6 +168,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "CanAcceptMessage22ChannelAssignment",
                             "CanSwitchBands",
@@ -140,32 +192,32 @@ this.ScenarioInitialize(scenarioInfo);
                             "TimeStampSecond",
                             "TrueHeadingDegrees"});
                 table1.AddRow(new string[] {
-                            "true",
-                            "true",
-                            "123.45",
-                            "Cstdma",
-                            "true",
-                            "true",
-                            "true",
-                            "12345",
-                            "1",
-                            "2",
-                            "true",
-                            "Itdma",
-                            "true",
-                            "1",
-                            "2",
-                            "3",
-                            "12.34",
-                            "56",
-                            "78"});
-#line 4
+                            string.Format("{0}", can_Accept_Msg22),
+                            string.Format("{0}", can_Switch_Bands),
+                            string.Format("{0}", course),
+                            string.Format("{0}", cs_Unit),
+                            string.Format("{0}", has_Display),
+                            string.Format("{0}", is_Assigned),
+                            string.Format("{0}", is_Dsc_Attached),
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", lat),
+                            string.Format("{0}", @long),
+                            string.Format("{0}", pos_Accuracy),
+                            string.Format("{0}", radio_Status),
+                            string.Format("{0}", raim),
+                            string.Format("{0}", reg_Res_139),
+                            string.Format("{0}", reg_Res_38),
+                            string.Format("{0}", repeat),
+                            string.Format("{0}", speed),
+                            string.Format("{0}", timestamp),
+                            string.Format("{0}", true_Heading)});
+#line 7
     await testRunner.GivenAsync("a new AisMessageType18 record with the following properties:", ((string)(null)), table1, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

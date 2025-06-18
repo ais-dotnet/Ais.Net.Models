@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType24Part0")]
+    [NUnit.Framework.DescriptionAttribute("Static Data Report Part A")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType24Part0Feature
+    public partial class StaticDataReportPartAFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType24Part0", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Static Data Report Part A", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType24Part0.feature"
 #line hidden
@@ -102,14 +102,28 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType24Part0 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType24Part0Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType24Part0 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding a Static Data Report Part A")]
+        [NUnit.Framework.TestCaseAttribute("12345", "0", "3", "1", null)]
+        public async global::System.Threading.Tasks.Task DecodingAStaticDataReportPartA(string mmsi, string part_No, string repeat, string spare, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("part_no", part_No);
+            argumentsOfScenario.Add("repeat", repeat);
+            argumentsOfScenario.Add("spare", spare);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding a Static Data Report Part A", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,23 +133,26 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Mmsi",
                             "PartNumber",
                             "RepeatIndicator",
                             "Spare160"});
                 table4.AddRow(new string[] {
-                            "12345",
-                            "0",
-                            "3",
-                            "1"});
-#line 4
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", part_No),
+                            string.Format("{0}", repeat),
+                            string.Format("{0}", spare)});
+#line 7
     await testRunner.GivenAsync("a new AisMessageType24Part0 record with the following properties:", ((string)(null)), table4, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType24Part0 is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the AisMessageType24Part0 properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

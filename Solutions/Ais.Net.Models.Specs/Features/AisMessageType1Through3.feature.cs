@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType1Through3")]
+    [NUnit.Framework.DescriptionAttribute("Class A Vessel Position Report")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType1Through3Feature
+    public partial class ClassAVesselPositionReportFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType1Through3", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Class A Vessel Position Report", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType1Through3.feature"
 #line hidden
@@ -102,14 +102,33 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType1Through3 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType1Through3Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType1Through3 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding a Class A vessel position report")]
+        [NUnit.Framework.TestCaseAttribute("123.45", "NotAvailable", "12345", "UnderwayUsingEngine", "1.0", "2.0", "true", "12.34", null)]
+        [NUnit.Framework.TestCaseAttribute("234.56", "NotAvailable", "54321", "AtAnchor", "3.0", "4.0", "true", "0.0", null)]
+        public async global::System.Threading.Tasks.Task DecodingAClassAVesselPositionReport(string course, string manoeuvre, string mmsi, string nav_Status, string lat, string @long, string pos_Accuracy, string speed, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("course", course);
+            argumentsOfScenario.Add("manoeuvre", manoeuvre);
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("nav_status", nav_Status);
+            argumentsOfScenario.Add("lat", lat);
+            argumentsOfScenario.Add("long", @long);
+            argumentsOfScenario.Add("pos_accuracy", pos_Accuracy);
+            argumentsOfScenario.Add("speed", speed);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding a Class A vessel position report", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,6 +138,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "CourseOverGround",
                             "ManoeuvreIndicator",
@@ -139,14 +161,14 @@ this.ScenarioInitialize(scenarioInfo);
                             "TimeStampSecond",
                             "TrueHeadingDegrees"});
                 table3.AddRow(new string[] {
-                            "123.45",
-                            "NotAvailable",
+                            string.Format("{0}", course),
+                            string.Format("{0}", manoeuvre),
                             "1",
-                            "12345",
-                            "UnderwayUsingEngine",
-                            "1",
-                            "2",
-                            "true",
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", nav_Status),
+                            string.Format("{0}", lat),
+                            string.Format("{0}", @long),
+                            string.Format("{0}", pos_Accuracy),
                             "1",
                             "2",
                             "UtcDirect",
@@ -154,16 +176,16 @@ this.ScenarioInitialize(scenarioInfo);
                             "true",
                             "3",
                             "4",
-                            "12.34",
+                            string.Format("{0}", speed),
                             "56",
                             "78"});
-#line 4
+#line 7
     await testRunner.GivenAsync("a new AisMessageType1Through3 record with the following properties:", ((string)(null)), table3, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType1Through3 is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the AisMessageType1Through3 properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

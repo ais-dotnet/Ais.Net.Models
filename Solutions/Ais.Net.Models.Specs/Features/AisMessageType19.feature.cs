@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType19")]
+    [NUnit.Framework.DescriptionAttribute("Class B \"SO\" Position Report")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType19Feature
+    public partial class ClassBSOPositionReportFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType19", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Class B \"SO\" Position Report", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType19.feature"
 #line hidden
@@ -102,14 +102,69 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType19 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType19Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType19 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding a Class B \"SO\" position report")]
+        [NUnit.Framework.TestCaseAttribute("123.45", "1", "2", "3", "4", "true", "true", "12345", "1.0", "2.0", "true", "Gps", "true", "1", "2", "3", "SHIP", "60", "1", "12.34", "56", "78", null)]
+        public async global::System.Threading.Tasks.Task DecodingAClassBSOPositionReport(
+                    string course, 
+                    string dim_Bow, 
+                    string dim_Port, 
+                    string dim_Starboard, 
+                    string dim_Stern, 
+                    string is_Assigned, 
+                    string dte_Not_Ready, 
+                    string mmsi, 
+                    string lat, 
+                    string @long, 
+                    string pos_Accuracy, 
+                    string pos_Fix, 
+                    string raim, 
+                    string reg_Res_139, 
+                    string reg_Res_38, 
+                    string repeat, 
+                    string ship_Name, 
+                    string ship_Type, 
+                    string spare, 
+                    string speed, 
+                    string timestamp, 
+                    string true_Heading, 
+                    string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("course", course);
+            argumentsOfScenario.Add("dim_bow", dim_Bow);
+            argumentsOfScenario.Add("dim_port", dim_Port);
+            argumentsOfScenario.Add("dim_starboard", dim_Starboard);
+            argumentsOfScenario.Add("dim_stern", dim_Stern);
+            argumentsOfScenario.Add("is_assigned", is_Assigned);
+            argumentsOfScenario.Add("dte_not_ready", dte_Not_Ready);
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("lat", lat);
+            argumentsOfScenario.Add("long", @long);
+            argumentsOfScenario.Add("pos_accuracy", pos_Accuracy);
+            argumentsOfScenario.Add("pos_fix", pos_Fix);
+            argumentsOfScenario.Add("raim", raim);
+            argumentsOfScenario.Add("reg_res_139", reg_Res_139);
+            argumentsOfScenario.Add("reg_res_38", reg_Res_38);
+            argumentsOfScenario.Add("repeat", repeat);
+            argumentsOfScenario.Add("ship_name", ship_Name);
+            argumentsOfScenario.Add("ship_type", ship_Type);
+            argumentsOfScenario.Add("spare", spare);
+            argumentsOfScenario.Add("speed", speed);
+            argumentsOfScenario.Add("timestamp", timestamp);
+            argumentsOfScenario.Add("true_heading", true_Heading);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding a Class B \"SO\" position report", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,6 +174,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "CourseOverGround",
                             "DimensionToBow",
@@ -143,35 +201,35 @@ this.ScenarioInitialize(scenarioInfo);
                             "TimeStampSecond",
                             "TrueHeadingDegrees"});
                 table2.AddRow(new string[] {
-                            "123.45",
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "true",
-                            "true",
-                            "12345",
-                            "1",
-                            "2",
-                            "true",
-                            "Gps",
-                            "true",
-                            "1",
-                            "2",
-                            "3",
-                            "SHIP",
-                            "60",
-                            "1",
-                            "12.34",
-                            "56",
-                            "78"});
-#line 4
+                            string.Format("{0}", course),
+                            string.Format("{0}", dim_Bow),
+                            string.Format("{0}", dim_Port),
+                            string.Format("{0}", dim_Starboard),
+                            string.Format("{0}", dim_Stern),
+                            string.Format("{0}", is_Assigned),
+                            string.Format("{0}", dte_Not_Ready),
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", lat),
+                            string.Format("{0}", @long),
+                            string.Format("{0}", pos_Accuracy),
+                            string.Format("{0}", pos_Fix),
+                            string.Format("{0}", raim),
+                            string.Format("{0}", reg_Res_139),
+                            string.Format("{0}", reg_Res_38),
+                            string.Format("{0}", repeat),
+                            string.Format("{0}", ship_Name),
+                            string.Format("{0}", ship_Type),
+                            string.Format("{0}", spare),
+                            string.Format("{0}", speed),
+                            string.Format("{0}", timestamp),
+                            string.Format("{0}", true_Heading)});
+#line 7
     await testRunner.GivenAsync("a new AisMessageType19 record with the following properties:", ((string)(null)), table2, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType19 is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the AisMessageType19 properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

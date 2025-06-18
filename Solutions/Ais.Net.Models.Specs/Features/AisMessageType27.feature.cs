@@ -18,16 +18,16 @@ namespace Ais.Net.Models.Specs.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("AisMessageType27")]
+    [NUnit.Framework.DescriptionAttribute("Long-Range AIS Broadcast message")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class AisMessageType27Feature
+    public partial class Long_RangeAISBroadcastMessageFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AisMessageType27", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Long-Range AIS Broadcast message", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "AisMessageType27.feature"
 #line hidden
@@ -102,14 +102,34 @@ namespace Ais.Net.Models.Specs.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create AisMessageType27 record")]
-        public async global::System.Threading.Tasks.Task CreateAisMessageType27Record()
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create AisMessageType27 record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
+#line hidden
+#line 4
+    await testRunner.GivenAsync("I have an AIS message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Decoding a Long-Range AIS Broadcast message")]
+        [NUnit.Framework.TestCaseAttribute("123.45", "true", "12345", "UnderwayUsingEngine", "1.0", "2.0", "true", "true", "3", "12.34", null)]
+        public async global::System.Threading.Tasks.Task DecodingALong_RangeAISBroadcastMessage(string course, string gnss_Status, string mmsi, string nav_Status, string lat, string @long, string pos_Accuracy, string raim, string repeat, string speed, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("course", course);
+            argumentsOfScenario.Add("gnss_status", gnss_Status);
+            argumentsOfScenario.Add("mmsi", mmsi);
+            argumentsOfScenario.Add("nav_status", nav_Status);
+            argumentsOfScenario.Add("lat", lat);
+            argumentsOfScenario.Add("long", @long);
+            argumentsOfScenario.Add("pos_accuracy", pos_Accuracy);
+            argumentsOfScenario.Add("raim", raim);
+            argumentsOfScenario.Add("repeat", repeat);
+            argumentsOfScenario.Add("speed", speed);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decoding a Long-Range AIS Broadcast message", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -119,6 +139,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "CourseOverGround",
                             "GnssPositionStatus",
@@ -131,23 +154,23 @@ this.ScenarioInitialize(scenarioInfo);
                             "RepeatIndicator",
                             "SpeedOverGround"});
                 table6.AddRow(new string[] {
-                            "123.45",
-                            "true",
-                            "12345",
-                            "UnderwayUsingEngine",
-                            "1",
-                            "2",
-                            "true",
-                            "true",
-                            "3",
-                            "12.34"});
-#line 4
+                            string.Format("{0}", course),
+                            string.Format("{0}", gnss_Status),
+                            string.Format("{0}", mmsi),
+                            string.Format("{0}", nav_Status),
+                            string.Format("{0}", lat),
+                            string.Format("{0}", @long),
+                            string.Format("{0}", pos_Accuracy),
+                            string.Format("{0}", raim),
+                            string.Format("{0}", repeat),
+                            string.Format("{0}", speed)});
+#line 7
     await testRunner.GivenAsync("a new AisMessageType27 record with the following properties:", ((string)(null)), table6, "Given ");
 #line hidden
-#line 7
+#line 10
     await testRunner.WhenAsync("the AisMessageType27 is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 11
     await testRunner.ThenAsync("the AisMessageType27 properties should be set correctly", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

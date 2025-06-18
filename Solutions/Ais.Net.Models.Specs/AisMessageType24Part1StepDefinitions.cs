@@ -1,14 +1,14 @@
 namespace Ais.Net.Models.Specs;
 
-using Abstractions;
 using System;
+
 using Reqnroll;
+
 using Shouldly;
 
 [Binding]
-public class AisMessageType24Part1StepDefinitions
+public class AisMessageType24Part1StepDefinitions : StepDefinitionBase
 {
-    private AisMessageType24Part1? sut;
     private AisMessageType24Part1Data? data;
 
     [Given("a new AisMessageType24Part1 record with the following properties:")]
@@ -25,7 +25,7 @@ public class AisMessageType24Part1StepDefinitions
             throw new InvalidOperationException("Data is not set");
         }
 
-        this.sut = new AisMessageType24Part1(
+        this.Message = new AisMessageType24Part1(
             CallSign: this.data.CallSign ?? throw new InvalidOperationException(),
             DimensionToBow: this.data.DimensionToBow,
             DimensionToPort: this.data.DimensionToPort,
@@ -47,22 +47,29 @@ public class AisMessageType24Part1StepDefinitions
     [Then("the AisMessageType24Part1 properties should be set correctly")]
     public void ThenThePropertiesShouldBeSetCorrectly()
     {
-        this.sut.ShouldNotBeNull();
-        this.sut.CallSign.ShouldBe("CALL");
-        this.sut.DimensionToBow.ShouldBe(1u);
-        this.sut.DimensionToPort.ShouldBe(2u);
-        this.sut.DimensionToStarboard.ShouldBe(3u);
-        this.sut.DimensionToStern.ShouldBe(4u);
-        this.sut.Mmsi.ShouldBe(12345u);
-        this.sut.MothershipMmsi.ShouldBe(54321u);
-        this.sut.PartNumber.ShouldBe(1u);
-        this.sut.RepeatIndicator.ShouldBe(3u);
-        this.sut.SerialNumber.ShouldBe(123u);
-        this.sut.Spare162.ShouldBe(1u);
-        ((int)this.sut.ShipType).ShouldBe(60);
-        this.sut.UnitModelCode.ShouldBe(1u);
-        this.sut.VendorIdRev3.ShouldBe("VEN");
-        this.sut.VendorIdRev4.ShouldBe("DOR");
+        AisMessageType24Part1? sut = this.Message as AisMessageType24Part1;
+        
+        if (this.data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+
+        sut.ShouldNotBeNull();
+        sut.CallSign.ShouldBe(this.data.CallSign);
+        sut.DimensionToBow.ShouldBe(this.data.DimensionToBow);
+        sut.DimensionToPort.ShouldBe(this.data.DimensionToPort);
+        sut.DimensionToStarboard.ShouldBe(this.data.DimensionToStarboard);
+        sut.DimensionToStern.ShouldBe(this.data.DimensionToStern);
+        sut.Mmsi.ShouldBe(this.data.Mmsi);
+        sut.MothershipMmsi.ShouldBe(this.data.MothershipMmsi);
+        sut.PartNumber.ShouldBe(this.data.PartNumber);
+        sut.RepeatIndicator.ShouldBe(this.data.RepeatIndicator);
+        sut.SerialNumber.ShouldBe(this.data.SerialNumber);
+        sut.Spare162.ShouldBe(this.data.Spare162);
+        ((int)sut.ShipType).ShouldBe(this.data.ShipType);
+        sut.UnitModelCode.ShouldBe(this.data.UnitModelCode);
+        sut.VendorIdRev3.ShouldBe(this.data.VendorIdRev3);
+        sut.VendorIdRev4.ShouldBe(this.data.VendorIdRev4);
     }
 
     private class AisMessageType24Part1Data
