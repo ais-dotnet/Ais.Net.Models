@@ -55,12 +55,7 @@ task . FullBuild
 # task PostVersion {}
 # task PreBuild {}
 # task PostBuild {}
-task PreTest {
-    Write-Build Green "Repo Root:"
-    gci $here | Out-String | Write-Host
-    Write-Build Green "Available specs"
-    gci -Recurse $here/*.Specs.dll | Out-String | Write-Host
-}
+# task PreTest {}
 # task PostTest {}
 # task PreTestReport {}
 # task PostTestReport {}
