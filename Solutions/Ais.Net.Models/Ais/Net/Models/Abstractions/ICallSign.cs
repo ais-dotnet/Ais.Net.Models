@@ -4,7 +4,13 @@
 
 namespace Ais.Net.Models.Abstractions;
 
+/// <summary>
+/// Exposes the vessel's radio call sign.
+/// </summary>
 public interface ICallSign
 {
+    /// <summary>
+    /// Gets the vessel's radio call sign.
+    /// </summary>
     string CallSign { get; }
 }

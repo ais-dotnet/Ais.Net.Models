@@ -1,4 +1,4 @@
-﻿// <copyright file="AisMessageExtensions.cs" company="Endjin Limited">
+// <copyright file="AisMessageExtensions.cs" company="Endjin Limited">
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
@@ -8,51 +8,138 @@ using Ais.Net.Models.Abstractions;
 
 namespace Ais.Net.Models;
 
+/// <summary>
+/// Helper methods for converting raw AIS field values into the units and types exposed by the
+/// model records, and for classifying ship-type codes.
+/// </summary>
 public static class AisMessageExtensions
 {
+    /// <summary>
+    /// Converts a coordinate expressed in ten-thousandths of a minute (the encoding used by most
+    /// AIS position reports) to degrees.
+    /// </summary>
+    /// <param name="value">The coordinate in units of 1/10000 minute.</param>
+    /// <returns>The coordinate in degrees.</returns>
     public static double From10000thMinsToDegrees(this int value)
     {
         return value / 600000.0;
     }
 
+    /// <summary>
+    /// Converts a coordinate expressed in tenths of a minute (the lower-precision encoding used by
+    /// the long-range message type 27) to degrees.
+    /// </summary>
+    /// <param name="value">The coordinate in units of 1/10 minute.</param>
+    /// <returns>The coordinate in degrees.</returns>
     public static double From10thMinsToDegrees(this int value)
     {
         return value / 600.0;
     }
 
+    /// <summary>
+    /// Converts a value expressed in tenths (for example speed over ground in 1/10 knot) to its
+    /// real value, treating the sentinel 1023 as "not available".
+    /// </summary>
+    /// <param name="value">The raw value in tenths.</param>
+    /// <returns>The scaled value, or <see langword="null"/> when the value is the 1023 "not available" sentinel.</returns>
     public static float? FromTenths(this uint value)
     {
         return value == 1023 ? null : (value / 10.0f);
     }
 
+    /// <summary>
+    /// Converts a value expressed in tenths of a degree (for example course over ground) to
+    /// degrees, treating the sentinel 3600 as "not available".
+    /// </summary>
+    /// <param name="value">The raw value in tenths of a degree.</param>
+    /// <returns>The value in degrees, or <see langword="null"/> when the value is the 3600 "not available" sentinel.</returns>
     public static float? FromTenthsToDegrees(this uint value)
     {
         return value == 3600 ? null : (value / 10.0f);
     }
 
+    /// <summary>
+    /// Removes the '@' and space padding that AIS applies to text name fields and collapses any
+    /// run of interior spaces to a single space, preserving significant single spaces (such as in
+    /// "QUEEN MARY 2").
+    /// </summary>
+    /// <param name="value">The raw, padded vessel name.</param>
+    /// <returns>The cleaned vessel name, or an empty string when the input is entirely padding.</returns>
     public static string CleanVesselName(this string value)
     {
-        return value.Trim('@').Trim().Replace("  ", " ");
+        // AIS pads names with '@' (6-bit value 0) and/or spaces. Strip that padding from both
+        // ends (order-independently) and collapse any run of interior spaces to a single space
+        // (a single interior space is significant, e.g. "QUEEN MARY 2"). The result is built
+        // through a stack buffer so that only the returned string is allocated.
+        ReadOnlySpan<char> trimmed = value.AsSpan().Trim("@ ");
+        if (trimmed.IsEmpty)
+        {
+            return string.Empty;
+        }
+
+        // AIS text fields are short (<= 20 chars); the heap fallback guards against a pathological
+        // caller passing an over-long string to what is otherwise a stackalloc.
+        Span<char> buffer = trimmed.Length <= 256 ? stackalloc char[256] : new char[trimmed.Length];
+        int length = 0;
+        bool previousWasSpace = false;
+        foreach (char c in trimmed)
+        {
+            bool isSpace = c == ' ';
+            if (isSpace && previousWasSpace)
+            {
+                continue;
+            }
+
+            buffer[length++] = c;
+            previousWasSpace = isSpace;
+        }
+
+        return new string(buffer[..length]);
     }
 
-    public static string GetString(this Span<byte> value)
+    /// <summary>
+    /// Decodes a span of ASCII bytes to a string.
+    /// </summary>
+    /// <param name="value">The ASCII bytes to decode.</param>
+    /// <returns>The decoded string.</returns>
+    public static string GetString(this ReadOnlySpan<byte> value)
     {
         return Encoding.ASCII.GetString(value);
     }
 
+    /// <summary>
+    /// Decodes an AIS 6-bit ASCII text field to a string.
+    /// </summary>
+    /// <param name="field">The parser positioned over the text field.</param>
+    /// <returns>The decoded text.</returns>
     public static string TextFieldToString(this NmeaAisTextFieldParser field)
     {
-        Span<byte> ascii = stackalloc byte[(int)field.CharacterCount];
-        field.WriteAsAscii(ascii);
+        int characterCount = (int)field.CharacterCount;
 
-        return Encoding.ASCII.GetString(ascii);
+        // AIS text fields are short; the heap fallback guards against a field that reports a
+        // pathologically large character count from overflowing the stack.
+        Span<byte> ascii = characterCount <= 256 ? stackalloc byte[256] : new byte[characterCount];
+        Span<byte> field6BitAscii = ascii[..characterCount];
+        field.WriteAsAscii(field6BitAscii);
+
+        return Encoding.ASCII.GetString(field6BitAscii);
     }
 
+    /// <summary>
+    /// Maps a ship-and-cargo type to its coarse <see cref="ShipTypeCategory"/>.
+    /// </summary>
+    /// <param name="shipType">The ship type.</param>
+    /// <returns>The category the ship type belongs to.</returns>
     public static ShipTypeCategory ToShipTypeCategory(this ShipType shipType)
     {
         return shipType.ToShipTypeGroup().ToShipTypeCategory();
     }
 
+    /// <summary>
+    /// Maps a <see cref="ShipTypeGroup"/> to its coarse <see cref="ShipTypeCategory"/>.
+    /// </summary>
+    /// <param name="shipTypeGroup">The ship-type group.</param>
+    /// <returns>The category the group belongs to.</returns>
     public static ShipTypeCategory ToShipTypeCategory(this ShipTypeGroup shipTypeGroup)
     {
         return shipTypeGroup switch
@@ -103,148 +190,133 @@ public static class AisMessageExtensions
         };
     }
 
+    /// <summary>
+    /// Returns the human-readable description for a raw ship-and-cargo type code.
+    /// </summary>
+    /// <param name="shipType">The raw ship-type code (0-99).</param>
+    /// <returns>The description, or "Not available" when the code is out of range.</returns>
     public static string ToShipTypeDescription(this int shipType)
     {
-        switch (shipType)
-        {
-            case 0: goto default;
-            case >= 1 and <= 19: return "Reserved for future use";
-            case 20: return "Wing in ground(WIG), all ships of this type";
-            case 21: return "Wing in ground(WIG), Hazardous category A";
-            case 22: return "Wing in ground(WIG), Hazardous category B";
-            case 23: return "Wing in ground(WIG), Hazardous category C";
-            case 24: return "Wing in ground(WIG), Hazardous category D";
-            case 25: return "Wing in ground(WIG), Reserved for future use";
-            case 26: return "Wing in ground(WIG), Reserved for future use";
-            case 27: return "Wing in ground(WIG), Reserved for future use";
-            case 28: return "Wing in ground(WIG), Reserved for future use";
-            case 29: return "Wing in ground(WIG), Reserved for future use";
-            case 30: return "Fishing";
-            case 31: return "Towing";
-            case 32: return "Towing: length exceeds 200m or breadth exceeds 25m";
-            case 33: return "Dredging or underwater ops";
-            case 34: return "Diving ops";
-            case 35: return "Military ops";
-            case 36: return "Sailing";
-            case 37: return "Pleasure Craft";
-            case 38: return "Reserved";
-            case 39: return "Reserved";
-            case 40: return "High speed craft(HSC), all ships of this type";
-            case 41: return "High speed craft(HSC), Hazardous category A";
-            case 42: return "High speed craft(HSC), Hazardous category B";
-            case 43: return "High speed craft(HSC), Hazardous category C";
-            case 44: return "High speed craft(HSC), Hazardous category D";
-            case 45: return "High speed craft(HSC), Reserved for future use";
-            case 46: return "High speed craft(HSC), Reserved for future use";
-            case 47: return "High speed craft(HSC), Reserved for future use";
-            case 48: return "High speed craft(HSC), Reserved for future use";
-            case 49: return "High speed craft(HSC), No additional information";
-            case 50: return "Pilot Vessel";
-            case 51: return "Search and Rescue vessel";
-            case 52: return "Tug";
-            case 53: return "Port Tender";
-            case 54: return "Anti - pollution equipment";
-            case 55: return "Law Enforcement";
-            case 56: return "Spare - Local Vessel";
-            case 57: return "Spare - Local Vessel";
-            case 58: return "Medical Transport";
-            case 59: return "Noncombatant ship according to RR Resolution No. 18";
-            case 60: return "Passenger, all ships of this type";
-            case 61: return "Passenger, Hazardous category A";
-            case 62: return "Passenger, Hazardous category B";
-            case 63: return "Passenger, Hazardous category C";
-            case 64: return "Passenger, Hazardous category D";
-            case 65: return "Passenger, Reserved for future use";
-            case 66: return "Passenger, Reserved for future use";
-            case 67: return "Passenger, Reserved for future use";
-            case 68: return "Passenger, Reserved for future use";
-            case 69: return "Passenger, No additional information";
-            case 70: return "Cargo, all ships of this type";
-            case 71: return "Cargo, Hazardous category A";
-            case 72: return "Cargo, Hazardous category B";
-            case 73: return "Cargo, Hazardous category C";
-            case 74: return "Cargo, Hazardous category D";
-            case 75: return "Cargo, Reserved for future use";
-            case 76: return "Cargo, Reserved for future use";
-            case 77: return "Cargo, Reserved for future use";
-            case 78: return "Cargo, Reserved for future use";
-            case 79: return "Cargo, No additional information";
-            case 80: return "Tanker, all ships of this type";
-            case 81: return "Tanker, Hazardous category A";
-            case 82: return "Tanker, Hazardous category B";
-            case 83: return "Tanker, Hazardous category C";
-            case 84: return "Tanker, Hazardous category D";
-            case 85: return "Tanker, Reserved for future use";
-            case 86: return "Tanker, Reserved for future use";
-            case 87: return "Tanker, Reserved for future use";
-            case 88: return "Tanker, Reserved for future use";
-            case 89: return "Tanker, No additional information";
-            case 90: return "Other Type, all ships of this type";
-            case 91: return "Other Type, Hazardous category A";
-            case 92: return "Other Type, Hazardous category B";
-            case 93: return "Other Type, Hazardous category C";
-            case 94: return "Other Type, Hazardous category D";
-            case 95: return "Other Type, Reserved for future use";
-            case 96: return "Other Type, Reserved for future use";
-            case 97: return "Other Type, Reserved for future use";
-            case 98: return "Other Type, Reserved for future use";
-            case 99: return "Other Type, no additional information";
-            default: return "Not available";
-        }
+        return (uint)shipType < (uint)ShipTypeTable.Length
+            ? ShipTypeTable[shipType].Description
+            : NotAvailableDescription;
     }
 
+    /// <summary>
+    /// Maps a ship-and-cargo type to its <see cref="ShipTypeGroup"/>.
+    /// </summary>
+    /// <param name="shipType">The ship type.</param>
+    /// <returns>The group the ship type belongs to.</returns>
     public static ShipTypeGroup ToShipTypeGroup(this ShipType shipType)
     {
         return ToShipTypeGroup((int)shipType);
     }
 
+    /// <summary>
+    /// Maps a raw ship-and-cargo type code to its <see cref="ShipTypeGroup"/>.
+    /// </summary>
+    /// <param name="shipType">The raw ship-type code (0-99).</param>
+    /// <returns>The group the code belongs to, or <see cref="ShipTypeGroup.NotAvailable"/> when the code is out of range.</returns>
     public static ShipTypeGroup ToShipTypeGroup(this int shipType)
     {
-        switch (shipType)
+        return (uint)shipType < (uint)ShipTypeTable.Length
+            ? ShipTypeTable[shipType].Group
+            : ShipTypeGroup.NotAvailable;
+    }
+
+    private const string NotAvailableDescription = "Not available";
+
+    // Single source of truth for ship-type classification: each raw code (0-99) is mapped to its
+    // group AND its human-readable description in exactly one place, so they can never disagree.
+    // (A previous bug had code 49 classified as "reserved" by the group switch while the separate
+    // description switch said "no additional information".) Category is derived from the group, so
+    // all three facets flow from this one table.
+    private static readonly ShipTypeInfo[] ShipTypeTable = BuildShipTypeTable();
+
+    private static ShipTypeInfo[] BuildShipTypeTable()
+    {
+        ShipTypeInfo[] table = new ShipTypeInfo[100];
+        for (int i = 0; i < table.Length; i++)
         {
-            case 0: goto default;
-            case >= 1 and <= 19: return ShipTypeGroup.Reserved;
-            case 20: return ShipTypeGroup.WingInGroundAll;
-            case >= 21 and <= 24: return ShipTypeGroup.WingInGroundHazardous;
-            case >= 25 and <= 29: return ShipTypeGroup.WingInGroundReserved;
-            case 30: return ShipTypeGroup.Fishing;
-            case 31: return ShipTypeGroup.Towing;
-            case 32: return ShipTypeGroup.TowingLengthOver200MOrBreadthOver25M;
-            case 33: return ShipTypeGroup.DredgingOrUnderwaterOps;
-            case 34: return ShipTypeGroup.DivingOps;
-            case 35: return ShipTypeGroup.MilitaryOps;
-            case 36: return ShipTypeGroup.Sailing;
-            case 37: return ShipTypeGroup.PleasureCraft;
-            case >= 38 and <= 39: return ShipTypeGroup.Reserved;
-            case 40: return ShipTypeGroup.HighSpeedCraftAll;
-            case >= 41 and <= 44: return ShipTypeGroup.HighSpeedCraftHazardous;
-            case >= 45 and <= 49: return ShipTypeGroup.HighSpeedCraftReserved;
-            case 50: return ShipTypeGroup.PilotVessel;
-            case 51: return ShipTypeGroup.SearchAndRescueVessel;
-            case 52: return ShipTypeGroup.Tug;
-            case 53: return ShipTypeGroup.PortTender;
-            case 54: return ShipTypeGroup.AntiPollutionEquipment;
-            case 55: return ShipTypeGroup.LawEnforcement;
-            case >= 56 and <= 57: return ShipTypeGroup.SpareLocalVessel;
-            case 58: return ShipTypeGroup.MedicalTransport;
-            case 59: return ShipTypeGroup.NoncombatantShip;
-            case 60: return ShipTypeGroup.PassengerAll;
-            case >= 61 and <= 64: return ShipTypeGroup.PassengerHazardous;
-            case >= 65 and <= 68: return ShipTypeGroup.PassengerReserved;
-            case 69: return ShipTypeGroup.PassengerNoAdditionalInformation;
-            case 70: return ShipTypeGroup.CargoAll;
-            case >= 71 and <= 74: return ShipTypeGroup.CargoHazardous;
-            case >= 75 and <= 78: return ShipTypeGroup.CargoReserved;
-            case 79: return ShipTypeGroup.CargoNoAdditionalInformation;
-            case 80: return ShipTypeGroup.TankerAll;
-            case >= 81 and <= 84: return ShipTypeGroup.TankerHazardous;
-            case >= 85 and <= 88: return ShipTypeGroup.TankerReserved;
-            case 89: return ShipTypeGroup.TankerNoAdditionalInformation;
-            case 90: return ShipTypeGroup.OtherAll;
-            case >= 91 and <= 94: return ShipTypeGroup.OtherHazardous;
-            case >= 95 and <= 98: return ShipTypeGroup.OtherReserved;
-            case 99: return ShipTypeGroup.OtherNoAdditionalInformation;
-            default: return ShipTypeGroup.NotAvailable;
+            table[i] = new ShipTypeInfo(ShipTypeGroup.NotAvailable, NotAvailableDescription);
+        }
+
+        SetRange(table, 1, 19, ShipTypeGroup.Reserved, "Reserved for future use");
+
+        // Wing in ground (20-29): note this band has no "no additional information" code.
+        table[20] = new ShipTypeInfo(ShipTypeGroup.WingInGroundAll, "Wing in ground(WIG), all ships of this type");
+        SetHazardousCategories(table, 21, ShipTypeGroup.WingInGroundHazardous, "Wing in ground(WIG)");
+        SetRange(table, 25, 29, ShipTypeGroup.WingInGroundReserved, "Wing in ground(WIG), Reserved for future use");
+
+        table[30] = new ShipTypeInfo(ShipTypeGroup.Fishing, "Fishing");
+        table[31] = new ShipTypeInfo(ShipTypeGroup.Towing, "Towing");
+        table[32] = new ShipTypeInfo(ShipTypeGroup.TowingLengthOver200MOrBreadthOver25M, "Towing: length exceeds 200m or breadth exceeds 25m");
+        table[33] = new ShipTypeInfo(ShipTypeGroup.DredgingOrUnderwaterOps, "Dredging or underwater ops");
+        table[34] = new ShipTypeInfo(ShipTypeGroup.DivingOps, "Diving ops");
+        table[35] = new ShipTypeInfo(ShipTypeGroup.MilitaryOps, "Military ops");
+        table[36] = new ShipTypeInfo(ShipTypeGroup.Sailing, "Sailing");
+        table[37] = new ShipTypeInfo(ShipTypeGroup.PleasureCraft, "Pleasure Craft");
+        SetRange(table, 38, 39, ShipTypeGroup.Reserved, "Reserved");
+
+        // High speed craft (40-49): code 49 is "no additional information", not reserved.
+        table[40] = new ShipTypeInfo(ShipTypeGroup.HighSpeedCraftAll, "High speed craft(HSC), all ships of this type");
+        SetHazardousCategories(table, 41, ShipTypeGroup.HighSpeedCraftHazardous, "High speed craft(HSC)");
+        SetRange(table, 45, 48, ShipTypeGroup.HighSpeedCraftReserved, "High speed craft(HSC), Reserved for future use");
+        table[49] = new ShipTypeInfo(ShipTypeGroup.HighSpeedCraftNoAdditionalInformation, "High speed craft(HSC), No additional information");
+
+        table[50] = new ShipTypeInfo(ShipTypeGroup.PilotVessel, "Pilot Vessel");
+        table[51] = new ShipTypeInfo(ShipTypeGroup.SearchAndRescueVessel, "Search and Rescue vessel");
+        table[52] = new ShipTypeInfo(ShipTypeGroup.Tug, "Tug");
+        table[53] = new ShipTypeInfo(ShipTypeGroup.PortTender, "Port Tender");
+        table[54] = new ShipTypeInfo(ShipTypeGroup.AntiPollutionEquipment, "Anti - pollution equipment");
+        table[55] = new ShipTypeInfo(ShipTypeGroup.LawEnforcement, "Law Enforcement");
+        SetRange(table, 56, 57, ShipTypeGroup.SpareLocalVessel, "Spare - Local Vessel");
+        table[58] = new ShipTypeInfo(ShipTypeGroup.MedicalTransport, "Medical Transport");
+        table[59] = new ShipTypeInfo(ShipTypeGroup.NoncombatantShip, "Noncombatant ship according to RR Resolution No. 18");
+
+        // Passenger (60-69).
+        table[60] = new ShipTypeInfo(ShipTypeGroup.PassengerAll, "Passenger, all ships of this type");
+        SetHazardousCategories(table, 61, ShipTypeGroup.PassengerHazardous, "Passenger");
+        SetRange(table, 65, 68, ShipTypeGroup.PassengerReserved, "Passenger, Reserved for future use");
+        table[69] = new ShipTypeInfo(ShipTypeGroup.PassengerNoAdditionalInformation, "Passenger, No additional information");
+
+        // Cargo (70-79).
+        table[70] = new ShipTypeInfo(ShipTypeGroup.CargoAll, "Cargo, all ships of this type");
+        SetHazardousCategories(table, 71, ShipTypeGroup.CargoHazardous, "Cargo");
+        SetRange(table, 75, 78, ShipTypeGroup.CargoReserved, "Cargo, Reserved for future use");
+        table[79] = new ShipTypeInfo(ShipTypeGroup.CargoNoAdditionalInformation, "Cargo, No additional information");
+
+        // Tanker (80-89).
+        table[80] = new ShipTypeInfo(ShipTypeGroup.TankerAll, "Tanker, all ships of this type");
+        SetHazardousCategories(table, 81, ShipTypeGroup.TankerHazardous, "Tanker");
+        SetRange(table, 85, 88, ShipTypeGroup.TankerReserved, "Tanker, Reserved for future use");
+        table[89] = new ShipTypeInfo(ShipTypeGroup.TankerNoAdditionalInformation, "Tanker, No additional information");
+
+        // Other (90-99): code 99 uses lowercase "no additional information" in the source data.
+        table[90] = new ShipTypeInfo(ShipTypeGroup.OtherAll, "Other Type, all ships of this type");
+        SetHazardousCategories(table, 91, ShipTypeGroup.OtherHazardous, "Other Type");
+        SetRange(table, 95, 98, ShipTypeGroup.OtherReserved, "Other Type, Reserved for future use");
+        table[99] = new ShipTypeInfo(ShipTypeGroup.OtherNoAdditionalInformation, "Other Type, no additional information");
+
+        return table;
+    }
+
+    private static void SetHazardousCategories(ShipTypeInfo[] table, int firstCode, ShipTypeGroup group, string descriptionPrefix)
+    {
+        // The four consecutive codes map to "Hazardous category A" through "Hazardous category D".
+        for (int i = 0; i < 4; i++)
+        {
+            table[firstCode + i] = new ShipTypeInfo(group, $"{descriptionPrefix}, Hazardous category {(char)('A' + i)}");
         }
     }
+
+    private static void SetRange(ShipTypeInfo[] table, int firstCode, int lastCode, ShipTypeGroup group, string description)
+    {
+        for (int i = firstCode; i <= lastCode; i++)
+        {
+            table[i] = new ShipTypeInfo(group, description);
+        }
+    }
+
+    private readonly record struct ShipTypeInfo(ShipTypeGroup Group, string Description);
 }

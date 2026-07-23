@@ -4,6 +4,9 @@
 
 namespace Ais.Net.Models.Abstractions;
 
+/// <summary>
+/// Common abstraction for an AIS message, combining vessel identity with the message type identifier.
+/// </summary>
 public interface IAisMessage : IVesselIdentity, IAisMessageType
 {
 }

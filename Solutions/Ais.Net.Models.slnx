@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../GitVersion.yml" />
+    <File Path="../README.md" />
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Ais.Net.Models.Benchmarks/Ais.Net.Models.Benchmarks.csproj" />
+  <Project Path="Ais.Net.Models.Specs/Ais.Net.Models.Specs.csproj" />
+  <Project Path="Ais.Net.Models/Ais.Net.Models.csproj" />
+</Solution>
