@@ -4,7 +4,13 @@
 
 namespace Ais.Net.Models.Abstractions;
 
+/// <summary>
+/// Exposes the vessel's name.
+/// </summary>
 public interface IVesselName
 {
+    /// <summary>
+    /// Gets the vessel's name.
+    /// </summary>
     string VesselName { get; }
 }

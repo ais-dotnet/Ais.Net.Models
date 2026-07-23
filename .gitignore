@@ -403,3 +403,5 @@ _codeCoverage/
 _packages/
 .zf/extensions/
 *.sbom.*
+.endjin/
+BenchmarkDotNet.Artifacts/

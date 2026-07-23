@@ -31,7 +31,7 @@ $SkipPackage = $false
 #
 # Build process configuration
 #
-$SolutionToBuild = (Resolve-Path (Join-Path $here "./Solutions/Ais.Net.Models.sln")).Path
+$SolutionToBuild = (Resolve-Path (Join-Path $here "./Solutions/Ais.Net.Models.slnx")).Path
 $ProjectsToPublish = @()
 $NuSpecFilesToPackage = @()
 $NugetPublishSource = property ZF_NUGET_PUBLISH_SOURCE "$here/_local-nuget-feed"
