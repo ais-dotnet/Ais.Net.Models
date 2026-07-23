@@ -29,7 +29,7 @@ namespace Ais.Net.Models;
 /// <param name="ShipType">The ship-and-cargo type code.</param>
 /// <param name="Spare423">The value of the spare bits at bit offset 423.</param>
 /// <param name="VesselName">The name of the vessel.</param>
-public record AisMessageType5(
+public sealed record AisMessageType5(
     uint AisVersion,
     string CallSign,
     string Destination,

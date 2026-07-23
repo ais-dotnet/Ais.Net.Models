@@ -24,7 +24,7 @@ namespace Ais.Net.Models;
 /// <param name="UnitModelCode">The unit model code of the Class B equipment.</param>
 /// <param name="VendorIdRev3">The vendor identifier as encoded under revision 3 of the specification.</param>
 /// <param name="VendorIdRev4">The vendor identifier as encoded under revision 4 of the specification.</param>
-public record AisMessageType24Part1(
+public sealed record AisMessageType24Part1(
     string CallSign,
     uint DimensionToBow,
     uint DimensionToPort,

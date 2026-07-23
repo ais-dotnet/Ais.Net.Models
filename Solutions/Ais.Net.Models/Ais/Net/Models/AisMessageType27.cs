@@ -18,7 +18,7 @@ namespace Ais.Net.Models;
 /// <param name="RaimFlag">Whether Receiver Autonomous Integrity Monitoring is in use.</param>
 /// <param name="RepeatIndicator">The number of times the message has been repeated.</param>
 /// <param name="SpeedOverGround">The speed over ground in knots, or null when not available.</param>
-public record AisMessageType27(
+public sealed record AisMessageType27(
     float? CourseOverGround,
     bool GnssPositionStatus,
     uint Mmsi,
