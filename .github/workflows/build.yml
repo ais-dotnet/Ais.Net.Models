@@ -61,6 +61,11 @@ jobs:
     uses: endjin/Endjin.RecommendedPractices.GitHubActions/.github/workflows/scripted-build-matrix-pipeline.yml@main
     with:
       netSdkVersion: '10.x'
+      # The pipeline's publish phase has `needs: postCompile`, and the post-compile phase only runs
+      # when postCompilePhaseTasks is set. With it unset the post-compile phase is skipped, which
+      # cascades to skip publish on tagged builds (publish's `if` does not use always()). Point it at
+      # a no-op task (defined in .zf/config.ps1) so the phase runs and publish is not skipped.
+      postCompilePhaseTasks: 'NoOp'
       # workflow_dispatch inputs are always strings, the type property is just for the UI
       forcePublish: ${{ github.event.inputs.forcePublish == 'true' }}
       skipCleanup: ${{ github.event.inputs.skipCleanup == 'true' }}
