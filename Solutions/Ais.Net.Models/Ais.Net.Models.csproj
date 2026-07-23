@@ -3,7 +3,7 @@
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <EndjinDisableCodeAnalysis>True</EndjinDisableCodeAnalysis>
@@ -15,7 +15,14 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageDescription>.NET types and interfaces that describe AIS message types 1,2,3,5,18,19,24 Part 0, and 24 Part 1. These can be used on top of the high performance, zero allocation AIS.Net message decoder, which can process millions of AIVDM/AIVDO sentences per second on a single core. Sponsored by endjin.</PackageDescription>
     <PackageTags>ais;aisvdm;aivdo;nmea;marine;gis;endjin</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>
+      Major release.
+      BREAKING: now targets .NET 10 only (previous releases supported .NET 8).
+      BREAKING: Position is now a readonly record struct (value type) instead of a class, eliminating a heap allocation per decoded position.
+      Fixed: ToShipTypeGroup(49) now returns HighSpeedCraftNoAdditionalInformation; CleanVesselName correctly strips '@'/space padding and collapses interior spaces.
+      Performance: allocation-free vessel-name cleaning and ship-type classification.
+      Added XML documentation across the public API.
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup>

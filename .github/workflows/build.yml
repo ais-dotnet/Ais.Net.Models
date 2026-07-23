@@ -61,9 +61,6 @@ jobs:
     uses: endjin/Endjin.RecommendedPractices.GitHubActions/.github/workflows/scripted-build-matrix-pipeline.yml@main
     with:
       netSdkVersion: '10.x'
-      # Install the .NET 8 SDK too so the net8.0 targeting pack/runtime is available for
-      # building, testing and packing the multi-targeted (net8.0;net10.0) projects.
-      additionalNetSdkVersion: '8.x'
       # workflow_dispatch inputs are always strings, the type property is just for the UI
       forcePublish: ${{ github.event.inputs.forcePublish == 'true' }}
       skipCleanup: ${{ github.event.inputs.skipCleanup == 'true' }}
@@ -78,7 +75,7 @@ jobs:
       testPhaseMatrixJson: |
         {
           "os": ["ubuntu-latest"],
-          "dotnetFramework": ["net8.0", "net10.0"]
+          "dotnetFramework": ["net10.0"]
         }
       # testArtifactName: ''
       # testArtifactPath: ''
