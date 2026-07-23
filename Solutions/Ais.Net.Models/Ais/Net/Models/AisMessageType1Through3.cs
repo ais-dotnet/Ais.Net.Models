@@ -26,7 +26,7 @@ namespace Ais.Net.Models;
 /// <param name="SpeedOverGround">The speed over ground in knots, or null when not available.</param>
 /// <param name="TimeStampSecond">The UTC second when the report was generated.</param>
 /// <param name="TrueHeadingDegrees">The true heading in degrees.</param>
-public record AisMessageType1Through3(
+public sealed record AisMessageType1Through3(
     float? CourseOverGround,
     ManoeuvreIndicator ManoeuvreIndicator,
     int MessageType,

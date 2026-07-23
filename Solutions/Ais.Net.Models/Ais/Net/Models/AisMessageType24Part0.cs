@@ -13,7 +13,7 @@ namespace Ais.Net.Models;
 /// <param name="PartNumber">The part number identifying this as Part A of the static data report.</param>
 /// <param name="RepeatIndicator">The number of times the message has been repeated.</param>
 /// <param name="Spare160">The value of the spare bits at bit offset 160.</param>
-public record AisMessageType24Part0(
+public sealed record AisMessageType24Part0(
     uint Mmsi,
     uint PartNumber,
     uint RepeatIndicator,

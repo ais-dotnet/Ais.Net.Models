@@ -9,7 +9,11 @@ namespace Ais.Net.Models.Abstractions;
 /// </summary>
 /// <param name="Latitude">The latitude in degrees (positive north of the equator).</param>
 /// <param name="Longitude">The longitude in degrees (positive east of the prime meridian).</param>
-public record Position(double Latitude, double Longitude)
+/// <remarks>
+/// This is a value type so that a decoded position incurs no heap allocation; on the AIS decode
+/// path this avoids one allocation per positional message.
+/// </remarks>
+public readonly record struct Position(double Latitude, double Longitude)
 {
     /// <summary>
     /// Creates a <see cref="Position"/> from coordinates expressed in ten-thousandths of a minute

@@ -77,6 +77,13 @@ public static class AisMessageExtensions
             return string.Empty;
         }
 
+        // Fast path: if nothing needed trimming and there are no interior double-spaces to
+        // collapse, the value is already clean - return it as-is and allocate nothing.
+        if (trimmed.Length == value.Length && trimmed.IndexOf("  ") < 0)
+        {
+            return value;
+        }
+
         // AIS text fields are short (<= 20 chars); the heap fallback guards against a pathological
         // caller passing an over-long string to what is otherwise a stackalloc.
         Span<char> buffer = trimmed.Length <= 256 ? stackalloc char[256] : new char[trimmed.Length];

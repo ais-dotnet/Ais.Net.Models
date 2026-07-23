@@ -16,7 +16,7 @@ using BenchmarkDotNet.Attributes;
 public class VesselNameBenchmarks
 {
     // A raw 20-character AIS name field: text plus '@' padding (the common case).
-    [Params("EVER GIVEN@@@@@@@@@@", "QUEEN  MARY   2@@@@@", "@@@@@@@@@@@@@@@@@@@@")]
+    [Params("EVER GIVEN", "EVER GIVEN@@@@@@@@@@", "QUEEN  MARY   2@@@@@", "@@@@@@@@@@@@@@@@@@@@")]
     public string RawName { get; set; } = string.Empty;
 
     // The previous implementation, kept as the baseline to show the improvement.
