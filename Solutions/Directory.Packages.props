@@ -6,11 +6,10 @@
 
   <ItemGroup Label="Ais.Net.Models">
     <PackageVersion Include="Ais.Net" Version="0.4.2" />
-    <PackageVersion Include="Endjin.RecommendedPractices.GitHub" Version="2.1.18" />
   </ItemGroup>
 
   <ItemGroup Label="Ais.Net.Models.Specs">
-    <PackageVersion Include="NSubstitute" Version="6.0.0" />
+    <PackageVersion Include="NSubstitute" Version="6.2.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
   </ItemGroup>
 

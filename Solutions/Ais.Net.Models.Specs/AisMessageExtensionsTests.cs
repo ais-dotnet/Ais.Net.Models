@@ -1,14 +1,11 @@
-namespace Ais.Net.Models.Specs;
 
 using System;
-
-using Ais.Net;
-using Ais.Net.Models;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Shouldly;
 
+namespace Ais.Net.Models.Specs;
 [TestClass]
 public class AisMessageExtensionsTests
 {

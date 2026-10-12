@@ -1,10 +1,8 @@
-namespace Ais.Net.Models.Benchmarks;
-
-using Ais.Net.Models;
 using Ais.Net.Models.Abstractions;
 
 using BenchmarkDotNet.Attributes;
 
+namespace Ais.Net.Models.Benchmarks;
 /// <summary>
 /// Measures the pure numeric/enum helpers on the decode path. These are expected to be
 /// branch-free-ish, sub-nanosecond, and allocation-free; the benchmark exists to prove that

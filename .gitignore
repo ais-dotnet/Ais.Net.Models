@@ -405,3 +405,6 @@ _packages/
 *.sbom.*
 .endjin/
 BenchmarkDotNet.Artifacts/
+
+# Microsoft.Testing.Platform diagnostic logs written to the repo root by the ZeroFailed test task
+/*.diag

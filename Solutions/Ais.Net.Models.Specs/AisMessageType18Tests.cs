@@ -1,12 +1,10 @@
-namespace Ais.Net.Models.Specs;
-
-using Ais.Net.Models;
 using Ais.Net.Models.Abstractions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Shouldly;
 
+namespace Ais.Net.Models.Specs;
 [TestClass]
 public class AisMessageType18Tests
 {

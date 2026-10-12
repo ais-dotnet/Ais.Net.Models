@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
+  <Import Project="$(MSBuildThisFileDirectory)..\Endjin.Conventions.props" />
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <EndjinDisableCodeAnalysis>True</EndjinDisableCodeAnalysis>
     <!-- Ship XML docs in the package for consumer IntelliSense, and enforce that public members are documented (CS1591). -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
@@ -25,16 +24,8 @@
     </PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>RCS1029;SA1313;SA1009;</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Ais.Net" />
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

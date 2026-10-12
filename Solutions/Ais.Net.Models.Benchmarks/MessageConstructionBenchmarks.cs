@@ -1,10 +1,8 @@
-namespace Ais.Net.Models.Benchmarks;
-
-using Ais.Net.Models;
 using Ais.Net.Models.Abstractions;
 
 using BenchmarkDotNet.Attributes;
 
+namespace Ais.Net.Models.Benchmarks;
 /// <summary>
 /// Measures the cost of materialising a model record for a decoded message. Records are
 /// reference types, so each message is at least one heap allocation (plus a nested

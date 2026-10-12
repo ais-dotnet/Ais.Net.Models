@@ -1,11 +1,9 @@
-namespace Ais.Net.Models.Benchmarks;
 
 using System;
 
-using Ais.Net.Models;
-
 using BenchmarkDotNet.Attributes;
 
+namespace Ais.Net.Models.Benchmarks;
 /// <summary>
 /// Compares vessel-name cleaning strategies. The production method currently uses
 /// <c>Trim(...).Split(...).Join(...)</c> which allocates a temporary trimmed string, an array,
