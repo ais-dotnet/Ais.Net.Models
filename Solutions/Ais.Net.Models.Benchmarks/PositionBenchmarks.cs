@@ -1,9 +1,9 @@
-namespace Ais.Net.Models.Benchmarks;
 
 using Ais.Net.Models.Abstractions;
 
 using BenchmarkDotNet.Attributes;
 
+namespace Ais.Net.Models.Benchmarks;
 /// <summary>
 /// Confirms that constructing a <see cref="Position"/> is allocation-free. It was reworked from a
 /// <c>record</c> (reference type, 32 B per instance) to a <c>readonly record struct</c>, so this
