@@ -65,16 +65,11 @@
     <None Include="$(MSBuildThisFileDirectory)PackageIcon.png" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <!--
-      Marks the build as CI so the compiler normalises embedded paths, which is what makes a
-      deterministic build reproducible. The package only checked TF_BUILD (Azure Pipelines); this repo
-      builds on GitHub Actions, so both are honoured. An explicit -p:ContinuousIntegrationBuild=true
-      still wins, because these only apply when it has not already been set.
-    -->
-    <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == '' and '$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
-    <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == '' and '$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+  <!--
+    CI detection (ContinuousIntegrationBuild from TF_BUILD / GITHUB_ACTIONS) lives in
+    Directory.Build.props rather than here: this file is opt-in per project, and the test project's
+    RestoreLockedMode depends on that property too, so it must reach every project.
+  -->
 
   <PropertyGroup>
     <!--
