@@ -2,13 +2,18 @@
 
 Ais.Net.Models provides a series of [C# 9.0 records](https://devblogs.microsoft.com/dotnet/c-9-0-on-the-record/) which define the the message types, a series of interfaces that define common behaviours, and extension methods to help with type conversions & calculations.
 
-| Package                                                         | Status                                                                                                    |
-|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| [Ais.Net.Models](https://github.com/ais-dotnet/Ais.Net.Models/) | [![#](https://img.shields.io/nuget/v/Ais.Net.Models.svg)](https://www.nuget.org/packages/Ais.Net.Models/) |
+| Package                                                                               | Status                                                                                                                                              |
+|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Ais.Net](https://github.com/ais-dotnet/Ais.Net)                                      | [![#](https://img.shields.io/nuget/v/Ais.Net.svg)](https://www.nuget.org/packages/Ais.Net/)                                                         |
+| [Ais.Net.Models](https://github.com/ais-dotnet/Ais.Net.Models)                        | [![#](https://img.shields.io/nuget/v/Ais.Net.Models.svg)](https://www.nuget.org/packages/Ais.Net.Models/)                                           |
+| [Ais.Net.Models.Json](https://github.com/ais-dotnet/Ais.Net.Models.Json)              | [![#](https://img.shields.io/nuget/v/Ais.Net.Models.Json.svg)](https://www.nuget.org/packages/Ais.Net.Models.Json/)                                 |
+| [Ais.Net.Models.Json.Nats](https://github.com/ais-dotnet/Ais.Net.Models.Json.Nats)    | [![#](https://img.shields.io/nuget/v/Ais.Net.Models.Json.Nats.svg)](https://www.nuget.org/packages/Ais.Net.Models.Json.Nats/)                       |
+| [Ais.Net.Receiver](https://github.com/ais-dotnet/Ais.Net.Receiver)                    | [![#](https://img.shields.io/nuget/v/Ais.Net.Receiver.svg)](https://www.nuget.org/packages/Ais.Net.Receiver/)                                       |
+| [Ais.Net.Receiver.Storage.Azure.Blob](https://github.com/ais-dotnet/Ais.Net.Receiver) | [![#](https://img.shields.io/nuget/v/Ais.Net.Receiver.Storage.Azure.Blob.svg)](https://www.nuget.org/packages/Ais.Net.Receiver.Storage.Azure.Blob/) |
 
-The [AIS.NET](https://github.com/ais-dotnet/) project contains a series of layers, from a [low-level zero allocation, high performance NMEA AIS sentence decoder](https://github.com/ais-dotnet/Ais.Net/), to a [rich high-level convenience C# 9.0 models](https://github.com/ais-dotnet/Ais.Net.Models/) of AIS message types, a [receiver component](https://github.com/ais-dotnet/Ais.Net.Receiver/) that can listen to TCP streams of NMEA sentences and expose them as an `IObservable<string>` of raw sentences or an decoded `IObservable<IAisMessage>`, and finally a Storage Client implementation to persisting the raw NMEA sentence stream to Azure Blob storage for future processing.
+The [AIS.NET](https://github.com/ais-dotnet/) project contains a series of layers, from a [low-level zero allocation, high performance NMEA AIS sentence decoder](https://github.com/ais-dotnet/Ais.Net/), to [rich high-level C# 9.0 models](https://github.com/ais-dotnet/Ais.Net.Models/) of AIS message types, and a [receiver component](https://github.com/ais-dotnet/Ais.Net.Receiver/) that can listen to TCP streams of NMEA sentences and expose them as an `IObservable<string>` of raw sentences or a decoded `IObservable<IAisMessage>`. [`Ais.Net.Models.Json`](https://github.com/ais-dotnet/Ais.Net.Models.Json/) sits on top of `Ais.Net.Models` and turns the decoded messages into UTF-8 JSON and back, and `Ais.Net.Models.Json.Nats` is the top layer, adapting that serializer to NATS.Net so messages can be published and subscribed over NATS.
 
-![https://github.com/ais-dotnet](https://endjincdn.blob.core.windows.net/assets/ais-dotnet-project-layers.png)
+![https://github.com/ais-dotnet](https://endjincdn.blob.core.windows.net/assets/ais-dotnet-project-layers-incl-json.png)
 
 The table below shows the messages, their properties and how they are mapped to interfaces.
 
