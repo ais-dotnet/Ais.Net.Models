@@ -71,6 +71,7 @@ The table below shows the messages, their properties and how they are mapped to 
 | IAisMessageType5        |                      | Spare423             |                                     |                      |                        |                        |                         |
 | IAisMessageType19       |                      |                      |                                     | Spare308             |                        |                        |                         |
 | IVesselSpeedOverGround  | SpeedOverGround      |                      | SpeedOverGround                     | SpeedOverGround      |                        |                        | SpeedOverGround         |
+| IAisTimestamp           | Timestamp            | Timestamp            | Timestamp                           | Timestamp            | Timestamp              | Timestamp              | Timestamp               |
 | IVesselNavigation       | TimeStampSecond      |                      | TimeStampSecond                     | TimeStampSecond      |                        |                        |                         |
 | IVesselNavigation       | TrueHeadingDegrees   |                      | TrueHeadingDegrees                  | TrueHeadingDegrees   |                        |                        |                         |
 | IAisMessageType24Part1  |                      |                      |                                     |                      |                        | UnitModelCode          |                         |
