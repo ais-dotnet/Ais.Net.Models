@@ -16,7 +16,7 @@ public class AisMessageBaseTests
     [TestMethod]
     public void TimestampIsNullWhenNotSupplied()
     {
-        AisMessageType27 message = CreateType27();
+        AisMessageBase message = new(MessageType: 27, Mmsi: 123456789);
 
         message.Timestamp.ShouldBeNull();
     }
